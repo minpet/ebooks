@@ -50,7 +50,7 @@
       <h:panelGroup rendered="#{empty ebooks}">
          <em>No registered ebooks.</em>
       </h:panelGroup>
-      <h:dataTable var="_ebook" value="ebooks" rendered="#{not empty memebooksbers}" styleClass="simpletablestyle">
+      <h:dataTable var="_ebook" value="#{ebooks}" rendered="#{not empty ebooks}" styleClass="simpletablestyle">
          <h:column>
             <f:facet name="header">Id</f:facet>
                 #{_ebook.id}
