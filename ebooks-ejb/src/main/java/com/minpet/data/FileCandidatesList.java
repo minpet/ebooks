@@ -16,27 +16,27 @@ import javax.inject.Named;
 public class FileCandidatesList {
 
 	@Resource(lookup="java:global/ebooks/bookstore")
-	private URL bookstoreURL;
+	private URL bookstoreUrl;
 	
-	private List<File> bookFiles;
-	
-	@PostConstruct
-	public void init() throws URISyntaxException{
-		String protocol = bookstoreURL.getProtocol();
-		if("file".equals(protocol)){
-			File bookstoreDir = new File(bookstoreURL.toURI());
-			bookFiles = new ArrayList<File>();
-			for(File file: bookstoreDir.listFiles()){
-				bookFiles.add(file);
-			}
-		}else{
-			throw new UnsupportedOperationException("java:global/ebooks/bookstore must be set to file:// protocol (found "+protocol+")");
-		}
-	}
+	private List<File> fileCandidates;
 	
 	@Produces
-	@Named
-	public List<File> getBookFiles(){
-		return bookFiles;
+    @Named
+    public List<File> getFileCandidates() {
+        return fileCandidates;
+    }
+	
+	@PostConstruct
+	private void init() throws URISyntaxException{
+		String protocol = bookstoreUrl.getProtocol();
+		if("file".equals(protocol)){
+			fileCandidates = new ArrayList<File>();
+			File f = new File(bookstoreUrl.toURI());
+			for(File file : f.listFiles()){
+				fileCandidates.add(file);
+			}
+		}else{
+			throw new UnsupportedOperationException("'java:global/ebooks/bookstore' needs to have file:// protocol, but "+protocol+" found");
+		}
 	}
 }

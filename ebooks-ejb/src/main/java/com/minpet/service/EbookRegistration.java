@@ -14,20 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.minpet.rest;
+package com.minpet.service;
 
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
+import com.minpet.model.Ebook;
 
-/**
- * A class extending {@link Application} and annotated with @ApplicationPath is the Java EE 7 "no XML" approach to activating
- * JAX-RS.
- * 
- * <p>
- * Resources are served relative to the servlet path specified in the {@link ApplicationPath} annotation.
- * </p>
- */
-@ApplicationPath("/rest")
-public class JaxRsActivator extends Application {
-    /* class body intentionally left blank */
+import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import java.util.logging.Logger;
+
+// The @Stateless annotation eliminates the need for manual transaction demarcation
+@Stateless
+public class EbookRegistration {
+
+    @Inject
+    private Logger log;
+
+    @Inject
+    private EntityManager em;
+
+    @Inject
+    private Event<Ebook> memberEventSrc;
+
+    public void register(Ebook member) throws Exception {
+        log.info("Registering " + member.getName());
+        em.persist(member);
+        memberEventSrc.fire(member);
+    }
 }

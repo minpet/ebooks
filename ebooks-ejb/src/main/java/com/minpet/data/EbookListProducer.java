@@ -14,30 +14,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.minpet.util;
+package com.minpet.data;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.event.Observes;
+import javax.enterprise.event.Reception;
 import javax.enterprise.inject.Produces;
-import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.List;
 
-/**
- * This class uses CDI to alias Java EE resources, such as the persistence context, to CDI beans
- * 
- * <p>
- * Example injection on a managed bean field:
- * </p>
- * 
- * <pre>
- * &#064;Inject
- * private EntityManager em;
- * </pre>
- */
-public class WebResources {
+import com.minpet.model.Ebook;
 
+@RequestScoped
+public class EbookListProducer {
+
+    @Inject
+    private EbookRepository ebookRepository;
+
+    private List<Ebook> ebooks;
+
+    // @Named provides access the return value via the EL variable name "members" in the UI (e.g.,
+    // Facelets or JSP view)
     @Produces
-    @RequestScoped
-    public FacesContext produceFacesContext() {
-        return FacesContext.getCurrentInstance();
+    @Named
+    public List<Ebook> getEbooks() {
+        return ebooks;
     }
 
+    public void onMemberListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Ebook member) {
+        retrieveAllMembersOrderedByName();
+    }
+
+    @PostConstruct
+    public void retrieveAllMembersOrderedByName() {
+        ebooks = ebookRepository.findAllOrderedByName();
+    }
 }
