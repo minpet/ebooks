@@ -45,6 +45,9 @@ public class EbookController {
     @Produces
     @Named
     public Ebook getNewEbook() {
+    	FacesContext fc = FacesContext.getCurrentInstance();
+    	newEbook.setFile(fc.getExternalContext().getRequestParameterMap().get("file"));
+    	
         return newEbook;
     }
 

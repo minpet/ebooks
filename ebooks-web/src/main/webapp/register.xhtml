@@ -1,0 +1,26 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   template="/WEB-INF/templates/default.xhtml">
+   <ui:define name="content">
+      <h1>Register file as ebook!</h1>
+      
+      <h:form id="reg">
+         <p>Enforces annotation-based constraints defined on the model class.</p>
+         <h:panelGrid columns="3" columnClasses="titleCell">
+            <h:outputLabel for="name" value="Name:"/>
+            <h:inputText id="name" value="#{newEbook.name}" />
+            <h:message for="name" errorClass="invalid"/>
+         </h:panelGrid>
+         <p>
+            <h:panelGrid columns="2">
+               <h:commandButton id="register" action="#{ebookController.register}" value="Register" styleClass="register"/>
+               <h:messages styleClass="messages" errorClass="invalid" infoClass="valid" warnClass="warning"
+                           globalOnly="true"/>
+            </h:panelGrid>
+         </p>
+      </h:form>
+      
+	</ui:define>
+</ui:composition>

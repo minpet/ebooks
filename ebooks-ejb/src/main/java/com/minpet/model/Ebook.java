@@ -42,6 +42,9 @@ public class Ebook implements Serializable {
     @Size(min = 1, max = 50)
     private String name;
 
+    @NotNull
+    private String file;
+    
     public Long getId() {
         return id;
     }
@@ -57,4 +60,14 @@ public class Ebook implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+	public String getFile() {
+		return file;
+	}
+
+	public void setFile(String file) {
+		this.file = file;
+	}
+    
+    
 }
