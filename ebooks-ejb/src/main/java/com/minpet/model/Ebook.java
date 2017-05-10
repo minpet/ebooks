@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
-@Table(name = "Registrant", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
+@Table(name = "Ebook", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class Ebook implements Serializable {
     /** Default value included to remove warning. Remove or modify at will. **/
     private static final long serialVersionUID = 1L;

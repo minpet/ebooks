@@ -16,16 +16,31 @@
  */
 package com.minpet.controller;
 
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.RandomAccessFile;
+import java.net.URL;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.util.Base64;
+
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.minpet.model.Ebook;
 import com.minpet.service.EbookRegistration;
+import com.sun.pdfview.PDFFile;
+import com.sun.pdfview.PDFPage;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
@@ -33,6 +48,8 @@ import com.minpet.service.EbookRegistration;
 // http://www.cdi-spec.org/faq/#accordion6
 @Model
 public class EbookController {
+	
+	private static final int PREVIEW_IMAGES_NUM = 5;
 
     @Inject
     private FacesContext facesContext;
@@ -40,14 +57,16 @@ public class EbookController {
     @Inject
     private EbookRegistration memberRegistration;
 
+    @Resource(lookup="java:global/ebooks/bookstore")
+    private URL bookstoreUrl;
+    
     private Ebook newEbook;
 
+    private String[] previewImages;
+    
     @Produces
     @Named
     public Ebook getNewEbook() {
-    	FacesContext fc = FacesContext.getCurrentInstance();
-    	newEbook.setFile(fc.getExternalContext().getRequestParameterMap().get("file"));
-    	
         return newEbook;
     }
 
@@ -65,8 +84,49 @@ public class EbookController {
     }
 
     @PostConstruct
-    public void initNewMember() {
+    public void initNewMember() throws Exception {
         newEbook = new Ebook();
+        
+    	FacesContext fc = FacesContext.getCurrentInstance();
+    	newEbook.setFile(fc.getExternalContext().getRequestParameterMap().get("file"));
+
+        
+        if("file".equals(bookstoreUrl.getProtocol())){
+        	previewImages = new String[PREVIEW_IMAGES_NUM];
+        	
+        	File file = new File(bookstoreUrl.toURI()+File.separator+newEbook.getFile().trim());
+        	RandomAccessFile raf = new RandomAccessFile(file, "r");
+        	FileChannel channel = raf.getChannel();
+        	ByteBuffer buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
+        	PDFFile pdffile = new PDFFile(buf);
+        	for(int i=0; i<PREVIEW_IMAGES_NUM; i++){
+                // show the first page
+                PDFPage page = pdffile.getPage(i);
+                Rectangle rect = new Rectangle(0,0,
+                        (int)page.getBBox().getWidth(),
+                        (int)page.getBBox().getHeight());
+                
+                //generate the image
+                BufferedImage img = (BufferedImage) page.getImage(
+                        rect.width, rect.height, //width & height
+                        rect, // clip rect
+                        null, // null for the ImageObserver
+                        true, // fill background with white
+                        true  // block until drawing is done
+                        );
+                
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                ImageIO.write(img, "png", bos);
+                byte[] imageBytes = bos.toByteArray();
+     
+                byte[] result = Base64.getEncoder().encode(imageBytes);
+                previewImages[i] = new String(result);
+                bos.close();
+        	}
+        	raf.close();
+        }else{
+        	previewImages = new String[0];
+        }
     }
 
     private String getRootErrorMessage(Exception e) {
