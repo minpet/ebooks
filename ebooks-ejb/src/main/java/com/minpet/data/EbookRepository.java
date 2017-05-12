@@ -16,13 +16,15 @@
  */
 package com.minpet.data;
 
+import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.List;
 
 import com.minpet.model.Ebook;
 
@@ -36,14 +38,23 @@ public class EbookRepository {
         return em.find(Ebook.class, id);
     }
 
-    public List<Ebook> findAllOrderedByName() {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
+	public Ebook findEbookByFileName(String name) {
+		try{
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+	        CriteriaQuery<Ebook> criteria = cb.createQuery(Ebook.class);
+	        Root<Ebook> ebook = criteria.from(Ebook.class);
+	        criteria.select(ebook).where(cb.equal(ebook.get("file"), name)).orderBy(cb.asc(ebook.get("name")));
+	        return em.createQuery(criteria).getSingleResult();
+		}catch(NoResultException e){
+			return null;
+		}
+	}
+
+	public List<Ebook> findAllOrderedByName() {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Ebook> criteria = cb.createQuery(Ebook.class);
         Root<Ebook> ebook = criteria.from(Ebook.class);
-        // Swap criteria statements if you would like to try out type-safe criteria queries, a new
-        // feature in JPA 2.0
-        // criteria.select(member).orderBy(cb.asc(member.get(Member_.name)));
         criteria.select(ebook).orderBy(cb.asc(ebook.get("name")));
         return em.createQuery(criteria).getResultList();
-    }
+	}
 }

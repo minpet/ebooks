@@ -16,7 +16,6 @@
  */
 package com.minpet.controller;
 
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -37,6 +36,7 @@ import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.minpet.data.FileCandidateRepository;
 import com.minpet.model.Ebook;
 import com.minpet.service.EbookRegistration;
 import com.sun.pdfview.PDFFile;
@@ -55,6 +55,9 @@ public class EbookController {
     private FacesContext facesContext;
 
     @Inject
+    private FileCandidateRepository fileCandidateRepository;
+    
+    @Inject
     private EbookRegistration memberRegistration;
 
     @Resource(lookup="java:global/ebooks/bookstore")
@@ -70,12 +73,17 @@ public class EbookController {
         return newEbook;
     }
 
+    @Produces
+    @Named
+    public String[] getPreviewImages(){
+    	return previewImages;
+    }
+    
     public void register() throws Exception {
         try {
             memberRegistration.register(newEbook);
             facesContext.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));
-            initNewMember();
         } catch (Exception e) {
             String errorMessage = getRootErrorMessage(e);
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Registration Unsuccessful");
@@ -88,13 +96,14 @@ public class EbookController {
         newEbook = new Ebook();
         
     	FacesContext fc = FacesContext.getCurrentInstance();
-    	newEbook.setFile(fc.getExternalContext().getRequestParameterMap().get("file"));
+    	File candidate = fileCandidateRepository.findByHashedName(fc.getExternalContext().getRequestParameterMap().get("file"));
+    	newEbook.setFile(candidate.getAbsolutePath());
 
         
         if("file".equals(bookstoreUrl.getProtocol())){
         	previewImages = new String[PREVIEW_IMAGES_NUM];
         	
-        	File file = new File(bookstoreUrl.toURI()+File.separator+newEbook.getFile().trim());
+        	File file = new File(newEbook.getFile());
         	RandomAccessFile raf = new RandomAccessFile(file, "r");
         	FileChannel channel = raf.getChannel();
         	ByteBuffer buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());

@@ -56,12 +56,12 @@
 	      <h:dataTable var="_file" value="#{fileCandidates}" rendered="#{not empty fileCandidates}" styleClass="simpletablestyle">
 	         <h:column>
 	            <f:facet name="header">Name</f:facet>
-	            #{_file.name}
+	            #{_file.underlyingFile.name}
 	         </h:column>
 	         <h:column>
 	            <f:facet name="header">Action</f:facet>
 	            <h:link value="Register as ebook" outcome="register" >
-					<f:param name="file" value="#{_file.name}" />
+					<f:param name="file" value="#{_file.hashedName}" />
 				</h:link>
 	         </h:column>
 	      </h:dataTable>
