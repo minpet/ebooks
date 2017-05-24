@@ -54,7 +54,7 @@ public class BookReadingServlet extends HttpServlet{
 				}else{
 					resp.setStatus(HttpServletResponse.SC_OK);
 					resp.setContentLengthLong(file.length());
-					if(file.getName().endsWith(".pdf")){
+					if(file.getName().toLowerCase().endsWith(".pdf")){
 						resp.setContentType("application/pdf");
 					}else{
 						resp.setContentType(MediaType.APPLICATION_OCTET_STREAM);

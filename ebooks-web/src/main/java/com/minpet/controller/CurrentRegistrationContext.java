@@ -42,7 +42,7 @@ public class CurrentRegistrationContext implements Serializable{
 			File candidate = fileCandidateRepository.findByHashedName(fileParam);
 	    	currentEbook.setFile(candidate.getName());
 
-	        if("file".equals(bookstoreUrl.getProtocol())){
+	        if("file".equals(bookstoreUrl.getProtocol()) && currentEbook.getFile().toLowerCase().endsWith(".pdf")){
 	        	previewImages = new String[PREVIEW_IMAGES_NUM];
 	        	
 	        	File file = new File(new File(bookstoreUrl.toURI()).getAbsolutePath()+File.separator+currentEbook.getFile());
