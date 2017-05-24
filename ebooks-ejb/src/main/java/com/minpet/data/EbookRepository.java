@@ -57,4 +57,12 @@ public class EbookRepository {
         criteria.select(ebook).orderBy(cb.asc(ebook.get("name")));
         return em.createQuery(criteria).getResultList();
 	}
+
+	public Ebook findEbookByHashedName(String hashedName) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Ebook> criteria = cb.createQuery(Ebook.class);
+        Root<Ebook> ebook = criteria.from(Ebook.class);
+        criteria.select(ebook).where(cb.equal(ebook.get("hashedName"), hashedName)).orderBy(cb.asc(ebook.get("name")));
+        return em.createQuery(criteria).getSingleResult();
+	}
 }

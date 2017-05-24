@@ -43,6 +43,13 @@
                 #{_ebook.name}
             </h:column>
          <h:column>
+            <f:facet name="header">Actions</f:facet>
+            <a href="#{request.contextPath}/read/#{_ebook.hashedName}.ebook">Read</a>
+            <h:panelGroup rendered="#{not _ebbok.indexed}">
+            	<a href="#{request.contextPath}/rest/index/#{_ebook.id}">Index</a>
+            </h:panelGroup>
+         </h:column>
+         <h:column>
             <f:facet name="header">REST URL</f:facet>
             <a href="#{request.contextPath}/rest/members/#{_ebook.id}">/rest/members/#{_ebook.id}</a>
          </h:column>

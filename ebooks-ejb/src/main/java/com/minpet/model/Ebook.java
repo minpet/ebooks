@@ -18,6 +18,7 @@ package com.minpet.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -43,7 +44,13 @@ public class Ebook implements Serializable {
     private String name;
 
     @NotNull
+    @Size(min = 1, max = 50)
+    private String hashedName;
+    
+    @NotNull
     private String file;
+    
+    private boolean indexed = false;
     
     public Long getId() {
         return id;
@@ -59,6 +66,7 @@ public class Ebook implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+        this.setHashedName(name.replaceAll("-", "").replaceAll(" ", "").replaceAll(",", ""));
     }
 
 	public String getFile() {
@@ -68,6 +76,20 @@ public class Ebook implements Serializable {
 	public void setFile(String file) {
 		this.file = file;
 	}
-    
-    
+
+	public String getHashedName() {
+		return hashedName;
+	}
+
+	public void setHashedName(String hashedName) {
+		this.hashedName = hashedName;
+	}
+
+	public boolean isIndexed() {
+		return indexed;
+	}
+
+	public void setIndexed(boolean indexed) {
+		this.indexed = indexed;
+	}
 }
