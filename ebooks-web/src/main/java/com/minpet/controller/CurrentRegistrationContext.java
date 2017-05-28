@@ -50,7 +50,7 @@ public class CurrentRegistrationContext implements Serializable{
 	        	FileChannel channel = raf.getChannel();
 	        	ByteBuffer buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
 	        	PDFFile pdffile = new PDFFile(buf);
-	        	for(int i=0; i<PREVIEW_IMAGES_NUM; i++){
+	        	for(int i=1; i<PREVIEW_IMAGES_NUM+1; i++){
 	                // show the first page
 	                PDFPage page = pdffile.getPage(i);
 	                Rectangle rect = new Rectangle(0,0,
@@ -65,13 +65,13 @@ public class CurrentRegistrationContext implements Serializable{
 	                        true, // fill background with white
 	                        true  // block until drawing is done
 	                        );
-	                
+
 	                ByteArrayOutputStream bos = new ByteArrayOutputStream();
 	                ImageIO.write(img, "png", bos);
 	                byte[] imageBytes = bos.toByteArray();
 	     
 	                byte[] result = Base64.getEncoder().encode(imageBytes);
-	                previewImages[i] = new String(result);
+	                previewImages[i-1] = new String(result);
 	                bos.close();
 	        	}
 	        	raf.close();

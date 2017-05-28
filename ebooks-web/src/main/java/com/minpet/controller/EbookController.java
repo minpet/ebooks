@@ -70,6 +70,7 @@ public class EbookController {
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));
             ebookSaved = true;
             currentRegistrationContext.clear();
+            previewImages = currentRegistrationContext.getCurrentPreviewImages();
         } catch (Exception e) {
             String errorMessage = getRootErrorMessage(e);
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Registration Unsuccessful");
@@ -82,6 +83,7 @@ public class EbookController {
     	String fileParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("file"); 
     	newEbook = currentRegistrationContext.getCurrentEbook(fileParam);
         previewImages = currentRegistrationContext.getCurrentPreviewImages();
+        ebookSaved = false;
      }
 
     private String getRootErrorMessage(Exception e) {

@@ -23,6 +23,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -51,6 +52,9 @@ public class Ebook implements Serializable {
     private String file;
     
     private boolean indexed = false;
+    
+    @Transient
+    private boolean registered = false;
     
     public Long getId() {
         return id;
@@ -91,5 +95,13 @@ public class Ebook implements Serializable {
 
 	public void setIndexed(boolean indexed) {
 		this.indexed = indexed;
+	}
+
+	public boolean isRegistered() {
+		return registered;
+	}
+
+	public void setRegistered(boolean registered) {
+		this.registered = registered;
 	}
 }
