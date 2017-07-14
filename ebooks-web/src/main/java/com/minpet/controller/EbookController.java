@@ -16,92 +16,37 @@
  */
 package com.minpet.controller;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
-import javax.enterprise.inject.Produces;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.minpet.data.EbookRepository;
 import com.minpet.model.Ebook;
-import com.minpet.service.EbookRegistration;
 
-@Model
+@ViewScoped
+@Named
 public class EbookController {
 	
-    @Inject
-    private FacesContext facesContext;
+	@Inject
+	private EbookRepository ebookRepository;
+	
+	private Ebook selectedEbook;
+	
+	private long selectedId;
+	
+	private void onload(){
+		selectedEbook = ebookRepository.findById(selectedId);
+	}
 
-    @Inject
-    private EbookRegistration memberRegistration;
+	public long getSelectedId() {
+		return selectedId;
+	}
 
-    @Inject
-    private CurrentRegistrationContext currentRegistrationContext;
-    
-    private Ebook newEbook;
-
-    private String[] previewImages;
-    
-    private boolean ebookSaved = false;
-    
-    @Produces
-    @Named
-    public Ebook getNewEbook() {
-        return newEbook;
-    }
-
-    @Produces
-    @Named
-    public String[] getPreviewImages(){
-    	return previewImages;
-    }
-    
-    @Produces
-    @Named
-    public boolean isEbookSaved(){
-    	return ebookSaved;
-    }
-    
-    public void register() throws Exception {
-        try {
-            memberRegistration.register(newEbook);
-            facesContext.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));
-            ebookSaved = true;
-            currentRegistrationContext.clear();
-            previewImages = currentRegistrationContext.getCurrentPreviewImages();
-        } catch (Exception e) {
-            String errorMessage = getRootErrorMessage(e);
-            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Registration Unsuccessful");
-            facesContext.addMessage(null, m);
-        }
-    }
-
-    @PostConstruct
-    private void initNewMember() throws Exception {
-    	String fileParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("file"); 
-    	newEbook = currentRegistrationContext.getCurrentEbook(fileParam);
-        previewImages = currentRegistrationContext.getCurrentPreviewImages();
-        ebookSaved = false;
-     }
-
-    private String getRootErrorMessage(Exception e) {
-        // Default to general error message that registration failed.
-        String errorMessage = "Registration failed. See server log for more information";
-        if (e == null) {
-            // This shouldn't happen, but return the default messages
-            return errorMessage;
-        }
-
-        // Start with the exception and recurse to find the root cause
-        Throwable t = e;
-        while (t != null) {
-            // Get the message from the Throwable class instance
-            errorMessage = t.getLocalizedMessage();
-            t = t.getCause();
-        }
-        // This is the root cause message
-        return errorMessage;
-    }
+	public void setSelectedId(long selectedId) {
+		this.selectedId = selectedId;
+	}
+	
+	public Ebook getSelectedEbook(){
+		return selectedEbook;
+	}
 }

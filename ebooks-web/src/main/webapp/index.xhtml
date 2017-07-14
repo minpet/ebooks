@@ -44,7 +44,9 @@
             </h:column>
          <h:column>
             <f:facet name="header">Actions</f:facet>
-            <a href="#{request.contextPath}/read/#{_ebook.hashedName}.ebook">Read</a>
+            <h:commandLink action="read" value="Read">
+            	<f:param name="i" value="#{_ebook.id}"/>
+            </h:commandLink>
             <h:panelGroup rendered="#{not _ebbok.indexed}">
             	<a href="#{request.contextPath}/rest/index/#{_ebook.id}">Index</a>
             </h:panelGroup>

@@ -16,15 +16,15 @@
          </h:panelGrid>
          <p>
             <h:panelGrid columns="2">
-               <h:commandButton id="register" rendered="#{not ebookSaved}" action="#{ebookController.register}" value="Register" styleClass="register"/>
+               <h:commandButton id="register" rendered="#{not ebookSaved}" action="#{newEbookController.register}" value="Register" styleClass="register"/>
                <h:link id="linkBack" rendered="#{ebookSaved}" value="Back" outcome="index" styleClass="register"/>
                <h:messages styleClass="messages" errorClass="invalid" infoClass="valid" warnClass="warning"
                            globalOnly="true"/>
             </h:panelGrid>
          </p>
          
-            <h:panelGrid columns="5" rendered="#{not empty ebookController.previewImages}">
-            	<c:forEach var="image" items="#{ebookController.previewImages}">
+            <h:panelGrid columns="5" rendered="#{not empty newEbookController.previewImages}">
+            	<c:forEach var="image" items="#{newEbookController.previewImages}">
             		<img src="data:image/png;base64,#{image}" width="85%" height="85%"/>
             	</c:forEach>
             </h:panelGrid>
