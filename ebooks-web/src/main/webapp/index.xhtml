@@ -33,32 +33,34 @@
       <h:panelGroup rendered="#{empty ebooks}">
          <em>No registered ebooks.</em>
       </h:panelGroup>
-      <h:dataTable var="_ebook" value="#{ebooks}" rendered="#{not empty ebooks}" styleClass="simpletablestyle">
-         <h:column>
-            <f:facet name="header">Id</f:facet>
-                #{_ebook.id}
-            </h:column>
-         <h:column>
-            <f:facet name="header">Name</f:facet>
-                #{_ebook.name}
-            </h:column>
-         <h:column>
-            <f:facet name="header">Actions</f:facet>
-            <h:commandLink action="read" value="Read">
-            	<f:param name="i" value="#{_ebook.id}"/>
-            </h:commandLink>
-            <h:panelGroup rendered="#{not _ebbok.indexed}">
-            	<a href="#{request.contextPath}/rest/index/#{_ebook.id}">Index</a>
-            </h:panelGroup>
-         </h:column>
-         <h:column>
-            <f:facet name="header">REST URL</f:facet>
-            <a href="#{request.contextPath}/rest/members/#{_ebook.id}">/rest/members/#{_ebook.id}</a>
-         </h:column>
-         <f:facet name="footer">
-            REST URL for all members: <a href="#{request.contextPath}/rest/members">/rest/members</a>
-         </f:facet>
-      </h:dataTable>
+      <h:form>
+	      <h:dataTable var="_ebook" value="#{ebooks}" rendered="#{not empty ebooks}" styleClass="simpletablestyle">
+	         <h:column>
+	            <f:facet name="header">Id</f:facet>
+	                #{_ebook.id}
+	            </h:column>
+	         <h:column>
+	            <f:facet name="header">Name</f:facet>
+	                #{_ebook.name}
+	            </h:column>
+	         <h:column>
+	            <f:facet name="header">Actions</f:facet>
+	            <h:link outcome="read" value="Read">
+	            	<f:param name="i" value="#{_ebook.id}"/>
+	            </h:link>
+	            <h:panelGroup rendered="#{not _ebbok.indexed}">
+	            	<a href="#{request.contextPath}/rest/index/#{_ebook.id}">Index</a>
+	            </h:panelGroup>
+	         </h:column>
+	         <h:column>
+	            <f:facet name="header">REST URL</f:facet>
+	            <a href="#{request.contextPath}/rest/members/#{_ebook.id}">/rest/members/#{_ebook.id}</a>
+	         </h:column>
+	         <f:facet name="footer">
+	            REST URL for all members: <a href="#{request.contextPath}/rest/members">/rest/members</a>
+	         </f:facet>
+	      </h:dataTable>
+      </h:form>
       
       <h:panelGroup rendered="#{not empty fileCandidates}">
 	      <h2>File candidates</h2>

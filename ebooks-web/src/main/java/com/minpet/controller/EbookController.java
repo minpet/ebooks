@@ -16,17 +16,25 @@
  */
 package com.minpet.controller;
 
+import java.io.Serializable;
+
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.jboss.logging.Logger;
 
 import com.minpet.data.EbookRepository;
 import com.minpet.model.Ebook;
 
 @ViewScoped
 @Named
-public class EbookController {
+public class EbookController implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
+	private static final Logger LOGGER = Logger.getLogger(EbookController.class);
+
 	@Inject
 	private EbookRepository ebookRepository;
 	
@@ -34,8 +42,10 @@ public class EbookController {
 	
 	private long selectedId;
 	
-	private void onload(){
+	public void onload(){
+		LOGGER.debug("preloading selected ebook (id) "+selectedId);
 		selectedEbook = ebookRepository.findById(selectedId);
+		LOGGER.debug("preloaded selected ebook "+selectedEbook);
 	}
 
 	public long getSelectedId() {
