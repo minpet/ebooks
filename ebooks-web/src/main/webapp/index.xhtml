@@ -23,6 +23,11 @@
    <ui:define name="content">
       <h1>Welcome to Ebook Virtual library!</h1>
 
+		<div>
+			<h:outputText value="Version: #{versionController.version}"/>
+			<h:outputText value="Build date: #{versionController.buildDate}"/>
+		</div>
+
       <div>
          <p>You have successfully deployed a Java EE 7 Enterprise Application.</p>
          <h3>Your application can run on:</h3>

@@ -39,6 +39,11 @@
         </license>
     </licenses>
 
+	<properties>
+		<timestamp>${maven.build.timestamp}</timestamp>
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+  </properties>
+
     <dependencies>
 
         <!-- Declare the APIs we depend on and need for compilation. All of 
@@ -111,6 +116,13 @@
                 </configuration>
             </plugin>
         </plugins>
+        
+        <resources>
+        	<resource>
+        		<directory>src/main/resources</directory>
+        		<filtering>true</filtering>
+        	</resource>
+        </resources>
     </build>
 
     <profiles>
