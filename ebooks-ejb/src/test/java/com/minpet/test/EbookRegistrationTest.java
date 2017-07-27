@@ -24,6 +24,8 @@ import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.as.arquillian.api.ServerSetup;
+
 import com.minpet.model.Ebook;
 import com.minpet.service.EbookRegistration;
 import com.minpet.util.Resources;
@@ -35,11 +37,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(Arquillian.class)
+@ServerSetup(CreateJndiResource.class)
 public class EbookRegistrationTest {
     @Deployment
     public static Archive<?> createTestArchive() {
         return ShrinkWrap.create(WebArchive.class, "test.war")
-                .addClasses(Ebook.class, EbookRegistration.class, Resources.class)
+                .addClasses(
+                		Ebook.class, 
+                		EbookRegistration.class, 
+                		Resources.class
+                		)
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 // Deploy our test datasource
