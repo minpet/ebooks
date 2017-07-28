@@ -16,25 +16,37 @@
  */
 package com.minpet.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
+import org.awaitility.Awaitility;
+import org.awaitility.proxy.ProxyCreator;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.as.arquillian.api.ServerSetup;
 
+import com.minpet.data.EbookRepository;
+import com.minpet.data.FileCandidateRepository;
 import com.minpet.model.Ebook;
+import com.minpet.model.FileCandidate;
 import com.minpet.service.EbookRegistration;
 import com.minpet.util.Resources;
+
+import net.sf.cglib.proxy.Callback;
+import net.sf.cglib.proxy.MethodInterceptor;
+
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.objenesis.Objenesis;
 
 @RunWith(Arquillian.class)
 @ServerSetup(CreateJndiResource.class)
@@ -43,9 +55,20 @@ public class EbookRegistrationTest {
     public static Archive<?> createTestArchive() {
         return ShrinkWrap.create(WebArchive.class, "test.war")
                 .addClasses(
-                		Ebook.class, 
-                		EbookRegistration.class, 
-                		Resources.class
+                		Ebook.class,
+                		FileCandidate.class, 
+                		EbookRegistration.class,
+                		FileCandidateRepository.class,
+                		EbookRepository.class,
+                		Resources.class,
+                		//TEST
+                		MethodInterceptor.class,
+                		Callback.class
+                		)
+                .addPackages(true, 
+                		Awaitility.class.getPackage(),
+                		ProxyCreator.class.getPackage(),
+                		Objenesis.class.getPackage()
                 		)
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
@@ -57,15 +80,25 @@ public class EbookRegistrationTest {
     EbookRegistration memberRegistration;
 
     @Inject
+    FileCandidateRepository fileCandidateRepository;
+    
+    @Inject
     Logger log;
 
     @Test
     public void testRegister() throws Exception {
-        Ebook newMember = new Ebook();
-        newMember.setName("Jane Doe");
-        memberRegistration.register(newMember);
-        assertNotNull(newMember.getId());
-        log.info(newMember.getName() + " was persisted with id " + newMember.getId());
+    	
+    	List<FileCandidate> candidates = fileCandidateRepository.getFileCandidates();
+    	
+    	assertEquals(candidates.size(), 1);
+    	
+        Ebook newEbook = new Ebook();
+        newEbook.setName("Jane Doe");
+        newEbook.setFile(candidates.get(0).getUnderlyingFile().getName());
+        newEbook.setHashedName(candidates.get(0).getHashedName());
+        memberRegistration.register(newEbook);
+        assertNotNull(newEbook.getId());
+        log.info(newEbook.getName() + " was persisted with id " + newEbook.getId());
     }
 
 }
