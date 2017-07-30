@@ -16,12 +16,12 @@
  */
 package com.minpet.service;
 
+import com.minpet.data.EbookRepository;
 import com.minpet.model.Ebook;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import java.util.logging.Logger;
 
 // The @Stateless annotation eliminates the need for manual transaction demarcation
@@ -32,14 +32,14 @@ public class EbookRegistration {
     private Logger log;
 
     @Inject
-    private EntityManager em;
+    private EbookRepository ebookRepository;
 
     @Inject
     private Event<Ebook> memberEventSrc;
 
-    public void register(Ebook member) throws Exception {
-        log.info("Registering " + member.getName());
-        em.persist(member);
-        memberEventSrc.fire(member);
+    public void register(Ebook ebook) throws Exception {
+        log.info("Registering " + ebook.getName());
+        ebookRepository.save(ebook);
+        memberEventSrc.fire(ebook);
     }
 }

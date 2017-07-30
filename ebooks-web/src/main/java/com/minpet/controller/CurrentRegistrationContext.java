@@ -6,18 +6,17 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
-import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.Base64;
 
-import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
 
 import com.minpet.data.FileCandidateRepository;
 import com.minpet.model.Ebook;
+import com.minpet.service.BookstoreTranslator;
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
 
@@ -30,11 +29,11 @@ public class CurrentRegistrationContext implements Serializable{
 	private Ebook currentEbook;
 	private String[] previewImages;
 
-    @Resource(lookup="java:global/ebooks/bookstore")
-    private URL bookstoreUrl;
-	
     @Inject
     private FileCandidateRepository fileCandidateRepository;
+    
+    @Inject
+    private BookstoreTranslator bookstoreTranslator;
     
 	public Ebook getCurrentEbook(String fileParam) throws Exception {
 		if(currentEbook == null){
@@ -42,11 +41,8 @@ public class CurrentRegistrationContext implements Serializable{
 			File candidate = fileCandidateRepository.findByHashedName(fileParam);
 	    	currentEbook.setFile(candidate.getName());
 
-	        if("file".equals(bookstoreUrl.getProtocol()) && currentEbook.getFile().toLowerCase().endsWith(".pdf")){
+	        try(RandomAccessFile raf = new RandomAccessFile(bookstoreTranslator.getFileFor(currentEbook), "r")){
 	        	previewImages = new String[PREVIEW_IMAGES_NUM];
-	        	
-	        	File file = new File(new File(bookstoreUrl.toURI()).getAbsolutePath()+File.separator+currentEbook.getFile());
-	        	RandomAccessFile raf = new RandomAccessFile(file, "r");
 	        	FileChannel channel = raf.getChannel();
 	        	ByteBuffer buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
 	        	PDFFile pdffile = new PDFFile(buf);
@@ -74,9 +70,6 @@ public class CurrentRegistrationContext implements Serializable{
 	                previewImages[i-1] = new String(result);
 	                bos.close();
 	        	}
-	        	raf.close();
-	        }else{
-	        	previewImages = new String[0];
 	        }
 		}
 		return currentEbook;

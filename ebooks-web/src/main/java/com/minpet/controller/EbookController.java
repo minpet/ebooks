@@ -16,6 +16,7 @@
  */
 package com.minpet.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.faces.view.ViewScoped;
@@ -26,6 +27,7 @@ import org.jboss.logging.Logger;
 
 import com.minpet.data.EbookRepository;
 import com.minpet.model.Ebook;
+import com.minpet.service.EbookService;
 
 @ViewScoped
 @Named
@@ -37,6 +39,9 @@ public class EbookController implements Serializable{
 
 	@Inject
 	private EbookRepository ebookRepository;
+	
+	@Inject
+	private EbookService ebookService;
 	
 	private Ebook selectedEbook;
 	
@@ -58,5 +63,9 @@ public class EbookController implements Serializable{
 	
 	public Ebook getSelectedEbook(){
 		return selectedEbook;
+	}
+	
+	public void createIndex(String selectedEbookId) throws IOException{
+		ebookService.createIndex(Long.valueOf(selectedEbookId));
 	}
 }

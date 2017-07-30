@@ -53,8 +53,10 @@
 	            <h:link outcome="read" value="Read">
 	            	<f:param name="i" value="#{_ebook.id}"/>
 	            </h:link>
-	            <h:panelGroup rendered="#{not _ebbok.indexed}">
-	            	<a href="#{request.contextPath}/rest/index/#{_ebook.id}">Index</a>
+	            <h:panelGroup rendered="#{not _ebook.indexed}">
+	            	<h:commandLink actionListener="#{ebookController.createIndex(_ebook.id)}" value="Index">
+	            		<f:ajax render="@form"/>
+	            	</h:commandLink>
 	            </h:panelGroup>
 	         </h:column>
 	         <h:column>

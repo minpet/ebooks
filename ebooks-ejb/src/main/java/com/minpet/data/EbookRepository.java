@@ -25,6 +25,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 
 import com.minpet.model.Ebook;
 
@@ -34,10 +35,12 @@ public class EbookRepository {
     @Inject
     private EntityManager em;
 
+    @Transactional
     public Ebook findById(Long id) {
         return em.find(Ebook.class, id);
     }
 
+    @Transactional
 	public Ebook findEbookByFileName(String name) {
 		try{
 			CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -50,6 +53,7 @@ public class EbookRepository {
 		}
 	}
 
+    @Transactional
 	public List<Ebook> findAllOrderedByName() {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Ebook> criteria = cb.createQuery(Ebook.class);
@@ -58,11 +62,17 @@ public class EbookRepository {
         return em.createQuery(criteria).getResultList();
 	}
 
+    @Transactional
 	public Ebook findEbookByHashedName(String hashedName) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Ebook> criteria = cb.createQuery(Ebook.class);
         Root<Ebook> ebook = criteria.from(Ebook.class);
         criteria.select(ebook).where(cb.equal(ebook.get("hashedName"), hashedName)).orderBy(cb.asc(ebook.get("name")));
         return em.createQuery(criteria).getSingleResult();
+	}
+	
+	@Transactional
+	public void save(Ebook ebook){
+		em.persist(ebook);
 	}
 }
