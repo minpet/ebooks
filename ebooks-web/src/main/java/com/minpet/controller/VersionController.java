@@ -3,13 +3,13 @@ package com.minpet.controller;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 
-import com.minpet.service.VersionService;
+import com.minpet.local.interf.IVersionService;
 
 @Model
 public class VersionController {
 
 	@Inject
-	private VersionService versionService;
+	private IVersionService versionService;
 	
 	public String getVersion(){
 		return versionService.getVersion();

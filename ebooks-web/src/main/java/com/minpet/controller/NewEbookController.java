@@ -24,8 +24,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.minpet.local.interf.IEbookRegistration;
 import com.minpet.model.Ebook;
-import com.minpet.service.EbookRegistration;
 
 @Model
 public class NewEbookController {
@@ -34,7 +34,7 @@ public class NewEbookController {
     private FacesContext facesContext;
 
     @Inject
-    private EbookRegistration memberRegistration;
+    private IEbookRegistration memberRegistration;
 
     @Inject
     private CurrentRegistrationContext currentRegistrationContext;

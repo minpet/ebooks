@@ -251,6 +251,7 @@
 			                    <!-- <module.path>${project.basedir}/target/wildfly-10.1.0.Final/modules</module.path>-->
 			            		<jboss.socket.binding.port-offset>3000</jboss.socket.binding.port-offset>
 			                </systemPropertyVariables>
+			                <skip>true</skip>
                         </configuration>
                     </plugin>
                     

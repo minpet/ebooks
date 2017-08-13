@@ -19,6 +19,7 @@ package com.minpet.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -36,8 +37,11 @@ import org.jboss.as.arquillian.api.ServerSetup;
 
 import com.minpet.data.EbookRepository;
 import com.minpet.data.FileCandidateRepository;
+import com.minpet.local.interf.IEbookRepository;
 import com.minpet.model.Ebook;
 import com.minpet.model.FileCandidate;
+import com.minpet.service.Base64ContentEncoder;
+import com.minpet.service.BookstoreTranslator;
 import com.minpet.service.EbookRegistration;
 import com.minpet.service.ElasticSearchEbook;
 import com.minpet.util.Resources;
@@ -70,15 +74,22 @@ public class EbookRegistrationTest {
                 		FileCandidateRepository.class,
                 		EbookRepository.class,
                 		Resources.class,
+                		ElasticSearchEbook.class,
+                		BookstoreTranslator.class,
+                		Base64ContentEncoder.class,
                 		//TEST
                 		MethodInterceptor.class,
-                		Callback.class
+                		Callback.class,
+                		TestHttpClient.class
                 		)
-                .addPackages(true, 
+                .addPackages(true,
+                		IEbookRepository.class.getPackage(),
                 		Awaitility.class.getPackage(),
                 		ProxyCreator.class.getPackage(),
                 		Objenesis.class.getPackage()
                 		)
+                .addPackages(true, "com.fasterxml", "org.apache.commons.lang3", "org.apache.commons.io", "net.lingala")
+                .addAsLibraries(new File("target/test-libs").listFiles())
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 // Deploy our test datasource

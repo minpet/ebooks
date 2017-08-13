@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.Resource;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.apache.http.HttpHost;
@@ -19,6 +20,7 @@ import org.apache.http.impl.client.HttpClients;
 
 import com.minpet.model.Ebook;
 
+@ApplicationScoped
 public class ElasticSearchEbook {
 
 	@Inject

@@ -1,4 +1,4 @@
-package com.minpet.data;
+package com.minpet.controller;
 
 import java.util.List;
 
@@ -7,13 +7,14 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.minpet.local.interf.IFileCandidateRepository;
 import com.minpet.model.FileCandidate;
 
 @RequestScoped
 public class FileCandidatesList {
 
 	@Inject
-	private FileCandidateRepository fileCandidateRepository;
+	private IFileCandidateRepository fileCandidateRepository;
 	
 	@Produces
     @Named

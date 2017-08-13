@@ -25,9 +25,9 @@ import javax.inject.Named;
 
 import org.jboss.logging.Logger;
 
-import com.minpet.data.EbookRepository;
+import com.minpet.local.interf.IEbookRepository;
+import com.minpet.local.interf.IEbookService;
 import com.minpet.model.Ebook;
-import com.minpet.service.EbookService;
 
 @ViewScoped
 @Named
@@ -38,10 +38,10 @@ public class EbookController implements Serializable{
 	private static final Logger LOGGER = Logger.getLogger(EbookController.class);
 
 	@Inject
-	private EbookRepository ebookRepository;
+	private IEbookRepository ebookRepository;
 	
 	@Inject
-	private EbookService ebookService;
+	private IEbookService ebookService;
 	
 	private Ebook selectedEbook;
 	
@@ -66,6 +66,8 @@ public class EbookController implements Serializable{
 	}
 	
 	public void createIndex(String selectedEbookId) throws IOException{
-		ebookService.createIndex(Long.valueOf(selectedEbookId));
+		if(!selectedEbookId.trim().equals("")){
+			ebookService.createIndex(Long.valueOf(selectedEbookId));
+		}
 	}
 }

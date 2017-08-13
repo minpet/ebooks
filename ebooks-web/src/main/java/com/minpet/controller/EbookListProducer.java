@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.minpet.data;
+package com.minpet.controller;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -24,14 +24,19 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import com.minpet.local.interf.IEbookRepository;
 import com.minpet.model.Ebook;
 
 @RequestScoped
 public class EbookListProducer {
 
     @Inject
-    private EbookRepository ebookRepository;
+    private IEbookRepository ebookRepository;
+    
+    private static final Logger LOGGER = Logger.getLogger(EbookListProducer.class.toString());
 
     private List<Ebook> ebooks;
 
@@ -40,6 +45,7 @@ public class EbookListProducer {
     @Produces
     @Named
     public List<Ebook> getEbooks() {
+    	LOGGER.log(Level.FINE, "returning ebooks: "+ebooks);
         return ebooks;
     }
 

@@ -14,9 +14,9 @@ import javax.enterprise.context.SessionScoped;
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
 
-import com.minpet.data.FileCandidateRepository;
+import com.minpet.local.interf.IBookstoreTranslator;
+import com.minpet.local.interf.IFileCandidateRepository;
 import com.minpet.model.Ebook;
-import com.minpet.service.BookstoreTranslator;
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
 
@@ -30,10 +30,10 @@ public class CurrentRegistrationContext implements Serializable{
 	private String[] previewImages;
 
     @Inject
-    private FileCandidateRepository fileCandidateRepository;
+    private IFileCandidateRepository fileCandidateRepository;
     
     @Inject
-    private BookstoreTranslator bookstoreTranslator;
+    private IBookstoreTranslator bookstoreTranslator;
     
 	public Ebook getCurrentEbook(String fileParam) throws Exception {
 		if(currentEbook == null){
