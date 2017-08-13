@@ -19,7 +19,11 @@ package com.minpet.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
@@ -35,10 +39,13 @@ import com.minpet.data.FileCandidateRepository;
 import com.minpet.model.Ebook;
 import com.minpet.model.FileCandidate;
 import com.minpet.service.EbookRegistration;
+import com.minpet.service.ElasticSearchEbook;
 import com.minpet.util.Resources;
 
 import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.MethodInterceptor;
+import pl.allegro.tech.embeddedelasticsearch.EmbeddedElastic;
+import pl.allegro.tech.embeddedelasticsearch.PopularProperties;
 
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -51,7 +58,9 @@ import org.objenesis.Objenesis;
 @RunWith(Arquillian.class)
 @ServerSetup(CreateJndiResource.class)
 public class EbookRegistrationTest {
-    @Deployment
+    private static EmbeddedElastic elasticSearchServer;
+
+	@Deployment
     public static Archive<?> createTestArchive() {
         return ShrinkWrap.create(WebArchive.class, "test.war")
                 .addClasses(
@@ -83,11 +92,14 @@ public class EbookRegistrationTest {
     FileCandidateRepository fileCandidateRepository;
     
     @Inject
+    ElasticSearchEbook elasticSearchEbook;
+    
+    @Inject
     Logger log;
 
     @Test
     public void testRegister() throws Exception {
-    	
+    	init();
     	List<FileCandidate> candidates = fileCandidateRepository.getFileCandidates();
     	
     	assertEquals(candidates.size(), 1);
@@ -99,6 +111,22 @@ public class EbookRegistrationTest {
         memberRegistration.register(newEbook);
         assertNotNull(newEbook.getId());
         log.info(newEbook.getName() + " was persisted with id " + newEbook.getId());
+        elasticSearchEbook.createContent(newEbook);
     }
 
+	public static void init() {
+		try {
+			elasticSearchServer = EmbeddedElastic.builder()
+					.withDownloadUrl(new URL("https://build-machine.local/devOnly/embedded/elasticsearch-5.4.1.zip"))
+					.withStartTimeout(5, TimeUnit.MINUTES).withSetting(PopularProperties.HTTP_PORT, 12200)
+					.withSetting(PopularProperties.CLUSTER_NAME, "testCluster")
+					.withSetting("discovery.zen.ping.unicast.hosts", new String[]{})
+					.withEsJavaOpts("-Xms128m -Xmx256m").build();
+			elasticSearchServer.start();
+			TestHttpClient.setupPipeline(12200);
+		} catch (IOException | InterruptedException e) {
+			Logger.getLogger(EbookRegistration.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+			e.printStackTrace();
+		}
+	}
 }

@@ -87,6 +87,12 @@
             <artifactId>cdi-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+			  <groupId>javax.transaction</groupId>
+			  <artifactId>javax.transaction-api</artifactId>
+			  <version>1.2</version>
+			  <scope>provided</scope>
+		</dependency>
 
         <!-- Import the JPA API, we use provided scope as the API is included in JBoss WildFly -->
         <dependency>
@@ -155,7 +161,13 @@
 			<version>2.0.0</version>
 			<scope>test</scope>
 		</dependency>
-
+		
+		<dependency>
+		    <groupId>pl.allegro.tech</groupId>
+		    <artifactId>embedded-elasticsearch</artifactId>
+		    <version>2.3.0</version>
+		    <scope>testCompile</scope>
+		</dependency>
     </dependencies>
 
     <build>

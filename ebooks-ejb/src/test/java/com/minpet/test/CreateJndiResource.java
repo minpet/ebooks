@@ -1,5 +1,6 @@
 package com.minpet.test;
 
+import java.io.IOException;
 import java.net.URL;
 
 import org.jboss.as.arquillian.api.ServerSetupTask;
@@ -23,15 +24,22 @@ public class CreateJndiResource implements ServerSetupTask{
 		LOGGER.warn("store is "+store);
 		
 		assertNotNull(store);
+				
+		addJndi("java.net.URL","java:global/ebooks/bookstore", store.toExternalForm(),mClient);
+		addJndi("java.lang.String","java:global/elasticsearch/host","localhost",mClient);
+		addJndi("java.lang.Integer","java:global/elasticsearch/port","12200",mClient);
 		
+	}
+
+	private void addJndi(String type, String name, String value, ManagementClient mClient) throws IOException {
 		ModelNode address = new ModelNode();
 		address.add("subsystem","naming");
-		address.add("binding","java:global/ebooks/bookstore");
+		address.add("binding",name);
 		
 		String dmrStr="{"+
 						"\"binding-type\" => \"simple\" "+
-						", \"type\" => \"java.net.URL\" "+
-						", \"value\" => \""+store.toExternalForm()+"\""+
+						", \"type\" => \""+type+"\" "+
+						", \"value\" => \""+value+"\""+
 						"}";
 		ModelNode dmr = ModelNode.fromString(dmrStr);
 		dmr.get("operation").set("add");
@@ -39,7 +47,7 @@ public class CreateJndiResource implements ServerSetupTask{
 		
 		mClient.getControllerClient().execute(dmr);
 	}
-
+	
 	@Override
 	public void tearDown(ManagementClient arg0, String arg1) throws Exception {
 		

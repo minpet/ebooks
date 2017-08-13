@@ -27,20 +27,23 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+import com.minpet.local.interf.IEbookRepository;
 import com.minpet.model.Ebook;
 
 @ApplicationScoped
-public class EbookRepository {
+public class EbookRepository implements IEbookRepository{
 
     @Inject
     private EntityManager em;
 
     @Transactional
+    @Override
     public Ebook findById(Long id) {
         return em.find(Ebook.class, id);
     }
 
     @Transactional
+    @Override
 	public Ebook findEbookByFileName(String name) {
 		try{
 			CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -54,6 +57,7 @@ public class EbookRepository {
 	}
 
     @Transactional
+    @Override
 	public List<Ebook> findAllOrderedByName() {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Ebook> criteria = cb.createQuery(Ebook.class);
@@ -63,6 +67,7 @@ public class EbookRepository {
 	}
 
     @Transactional
+    @Override
 	public Ebook findEbookByHashedName(String hashedName) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Ebook> criteria = cb.createQuery(Ebook.class);
@@ -72,6 +77,7 @@ public class EbookRepository {
 	}
 	
 	@Transactional
+	@Override
 	public void save(Ebook ebook){
 		em.persist(ebook);
 	}

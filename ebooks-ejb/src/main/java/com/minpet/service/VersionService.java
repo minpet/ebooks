@@ -6,8 +6,10 @@ import java.util.Properties;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 
+import com.minpet.local.interf.IVersionService;
+
 @ApplicationScoped
-public class VersionService {
+public class VersionService implements IVersionService{
 
 	private String version;
 	private String buildDate;
@@ -20,10 +22,12 @@ public class VersionService {
 		buildDate = props.get("build.date").toString();
 	}
 
+	@Override
 	public String getVersion() {
 		return version;
 	}
 
+	@Override
 	public String getBuildDate() {
 		return buildDate;
 	}
