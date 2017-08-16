@@ -37,7 +37,7 @@ public class EbookRepositoryMock implements IEbookRepository{
 	@Override
 	public List<Ebook> findAllOrderedByName() {
 		return new ArrayList<Ebook>(){{
-			//add(ebook);
+			add(ebook);
 			}};
 	}
 
