@@ -346,7 +346,19 @@
 									</artifactItems>
 								</configuration>
 							</execution>
-
+							
+							<execution>
+								<id>test-lib</id>
+								<phase>process-test-resources</phase>
+								<goals>
+									<goal>copy-dependencies</goal>
+								</goals>
+								<configuration>
+									<includeScope>test</includeScope>
+									<excludeGroupIds>org.jboss, com.minpet</excludeGroupIds>
+									<outputDirectory>${project.build.directory}/test-libs</outputDirectory>
+								</configuration>
+							</execution>
 						</executions>
 					</plugin>
 

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.logging.Level;
@@ -37,7 +38,7 @@ public class WebTest {
 
 	private static final Logger LOGGER = Logger.getLogger(WebTest.class.getName());
 
-	@Deployment(testable=false)
+	@Deployment
 	public static Archive<?> createTestArchive() {
 		return ShrinkWrap.create(WebArchive.class, "test.war")
 				.addClasses(WebResources.class)
@@ -47,7 +48,9 @@ public class WebTest {
 							VersionServiceMock.class.getPackage(),
 							Ebook.class.getPackage()
 						)
-				//.addAsLibraries(new File("target/test-libs").listFiles())
+				.addAsLibraries(new File("target/test-libs").listFiles())
+				.addAsResource(new File("src/test/resources/phantomjs"))
+				.addAsResource(new File("src/test/resources/phantomjs.exe"))
 				//.addAsWebResource(new File("src/main/webapp/resources"))
 				.addAsWebResource(new File("src/main/webapp/index.html"))
 				.addAsWebResource(new File("src/main/webapp/index.xhtml"))
@@ -62,17 +65,24 @@ public class WebTest {
 	@Test
 	public void testInitialPage() throws IOException, URISyntaxException{
 		URL phantomDriver;
+		String suffix;
 		
 		if(SystemUtils.IS_OS_WINDOWS)
 		{
 			phantomDriver = WebTest.class.getResource("/phantomjs.exe");
+			suffix="exe";
 		}
 		else
 		{
 			phantomDriver = WebTest.class.getResource("/phantomjs");
+			suffix="";
 		}
 		
-		File driverFile = new File(phantomDriver.toURI());
+		File driverFile = File.createTempFile("phantomjs", suffix);
+		try(InputStream is = phantomDriver.openStream()){
+			FileUtils.copyInputStreamToFile(is, driverFile);
+			driverFile.deleteOnExit();
+		}
 		driverFile.setExecutable(true);
 		assertTrue(driverFile.exists());
 		
