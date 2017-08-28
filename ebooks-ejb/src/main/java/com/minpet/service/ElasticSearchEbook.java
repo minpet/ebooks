@@ -26,7 +26,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 @ApplicationScoped
 public class ElasticSearchEbook implements IElasticSearchEbook{
 
-	private Logger log;
+	private transient Logger log;
 	private IBookstoreTranslator bookstoreTranslator;
 	private Base64ContentEncoder base64ContentEncoder;
 

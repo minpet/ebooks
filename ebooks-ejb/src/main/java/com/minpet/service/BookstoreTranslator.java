@@ -21,7 +21,7 @@ public class BookstoreTranslator implements IBookstoreTranslator{
 	@SuppressFBWarnings
 	@Resource(lookup="java:global/ebooks/bookstore")
     private URL bookstoreUrl;
-	private Logger log;
+	private transient Logger log;
 
 	@Inject
 	public BookstoreTranslator(Logger log){

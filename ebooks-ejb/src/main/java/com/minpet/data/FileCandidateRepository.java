@@ -22,7 +22,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 @Singleton
 public class FileCandidateRepository implements IFileCandidateRepository{
 	
-	
+	private static final long serialVersionUID = 1L;
+
 	@SuppressFBWarnings
 	@Resource(lookup="java:global/ebooks/bookstore")
 	private URL bookstoreUrl;

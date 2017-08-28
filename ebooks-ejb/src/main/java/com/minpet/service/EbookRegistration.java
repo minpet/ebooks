@@ -29,9 +29,10 @@ import java.util.logging.Logger;
 @Stateless
 public class EbookRegistration implements IEbookRegistration{
 
-    private Logger log;
+	private static final long serialVersionUID = 1L;
+	private transient Logger log;
     private IEbookRepository ebookRepository;
-    private Event<Ebook> ebookEventSrc;
+    private transient Event<Ebook> ebookEventSrc;
 
     @Inject
     public EbookRegistration(Logger log, IEbookRepository ebookRepository, Event<Ebook> ebookEvenrSrc){

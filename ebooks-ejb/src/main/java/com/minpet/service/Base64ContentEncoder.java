@@ -4,13 +4,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 
 import javax.enterprise.context.ApplicationScoped;
 
 import org.apache.commons.codec.binary.Base64;
 
 @ApplicationScoped
-public class Base64ContentEncoder {
+public class Base64ContentEncoder implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	public String encodeFileToBase64Binary(File file) throws IOException {
 

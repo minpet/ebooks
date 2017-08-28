@@ -16,6 +16,8 @@
  */
 package com.minpet.controller;
 
+import java.io.IOException;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
@@ -78,7 +80,7 @@ public class NewEbookController {
     }
 
     @PostConstruct
-    private void initNewMember() throws Exception {
+    private void initNewMember() throws IOException {
     	String fileParam = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("file"); 
     	newEbook = currentRegistrationContext.getCurrentEbook(fileParam);
         previewImages = currentRegistrationContext.getCurrentPreviewImages();
