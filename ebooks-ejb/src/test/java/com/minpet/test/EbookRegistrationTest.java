@@ -40,6 +40,7 @@ import com.minpet.data.EbookRepository;
 import com.minpet.data.FileCandidateRepository;
 import com.minpet.local.interf.IEbookRegistration;
 import com.minpet.local.interf.IEbookRepository;
+import com.minpet.local.interf.IEbookService;
 import com.minpet.local.interf.IElasticSearchEbook;
 import com.minpet.local.interf.IFileCandidateRepository;
 import com.minpet.local.interf.IVersionService;
@@ -48,6 +49,7 @@ import com.minpet.model.FileCandidate;
 import com.minpet.service.Base64ContentEncoder;
 import com.minpet.service.BookstoreTranslator;
 import com.minpet.service.EbookRegistration;
+import com.minpet.service.EbookService;
 import com.minpet.service.ElasticSearchEbook;
 import com.minpet.service.VersionService;
 import com.minpet.util.Resources;
@@ -79,6 +81,7 @@ public class EbookRegistrationTest {
                 		EbookRegistration.class,
                 		FileCandidateRepository.class,
                 		EbookRepository.class,
+                		EbookService.class,
                 		Resources.class,
                 		ElasticSearchEbook.class,
                 		BookstoreTranslator.class,
@@ -120,6 +123,9 @@ public class EbookRegistrationTest {
     
     @Inject
     IVersionService versionService;
+    
+    @Inject
+    IEbookService ebookService;
 
     @Test
     public void testRegister() throws Exception {
@@ -139,6 +145,8 @@ public class EbookRegistrationTest {
         
         versionService.getBuildDate();
         versionService.getVersion();
+        
+        ebookService.createIndex(newEbook.getId());
     }
 
 	public static void init() {
