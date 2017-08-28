@@ -115,6 +115,9 @@ public class WebTest {
 		try{
 			selenium.click("link=Register as ebook");
 			selenium.click("link=Back");
+			
+			selenium.click("link=Read");
+			selenium.click("link=Back");
 		}catch(Exception e){
 			e.printStackTrace();
 			try 

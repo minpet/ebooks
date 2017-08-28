@@ -37,7 +37,7 @@ public class EbookRepository implements IEbookRepository{
 
 	private static final long serialVersionUID = 1L;
 	private transient EntityManager em;
-	private Logger log;
+	private transient Logger log;
 	
     @Inject
     public EbookRepository(EntityManager em, Logger log){
