@@ -1,6 +1,8 @@
 package com.minpet.local.interf;
 
-public interface IEbookService {
+import java.io.Serializable;
+
+public interface IEbookService extends Serializable{
 
 	void createIndex(Long valueOf);
 

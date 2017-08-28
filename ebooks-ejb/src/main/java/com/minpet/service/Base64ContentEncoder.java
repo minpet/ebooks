@@ -11,7 +11,7 @@ import org.apache.commons.codec.binary.Base64;
 
 @ApplicationScoped
 public class Base64ContentEncoder {
-	
+
 	public String encodeFileToBase64Binary(File file) throws IOException {
 
 		byte[] bytes = loadFile(file);
@@ -19,25 +19,24 @@ public class Base64ContentEncoder {
 	}
 
 	private static byte[] loadFile(File file) throws IOException {
-	    InputStream is = new FileInputStream(file);
+		try (InputStream is = new FileInputStream(file)) {
 
-	    long length = file.length();
-	    if (length > Integer.MAX_VALUE) {
-	        throw new IOException("file is too big");
-	    }
-	    byte[] bytes = new byte[(int)length];
-	    
-	    int offset = 0;
-	    int numRead = 0;
-	    while (offset < bytes.length
-	           && (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) {
-	        offset += numRead;
-	    }
+			long length = file.length();
+			if (length > Integer.MAX_VALUE) {
+				throw new IOException("file is too big");
+			}
+			byte[] bytes = new byte[(int) length];
 
-	    if (offset < bytes.length) {
-	        throw new IOException("Could not completely read file "+file.getName());
-	    }
+			int offset = 0;
+			int numRead = 0;
+			while (offset < bytes.length && (numRead = is.read(bytes, offset, bytes.length - offset)) >= 0) {
+				offset += numRead;
+			}
 
-	    return bytes;
-}
+			if (offset < bytes.length) {
+				throw new IOException("Could not completely read file " + file.getName());
+			}
+			return bytes;
+		}
+	}
 }

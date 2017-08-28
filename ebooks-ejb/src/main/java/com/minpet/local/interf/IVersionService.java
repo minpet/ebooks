@@ -1,6 +1,8 @@
 package com.minpet.local.interf;
 
-public interface IVersionService {
+import java.io.Serializable;
+
+public interface IVersionService extends Serializable{
 
 	String getVersion();
 

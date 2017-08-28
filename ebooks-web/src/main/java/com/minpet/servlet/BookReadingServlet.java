@@ -13,8 +13,8 @@ public class BookReadingServlet extends ResumableServlet{
 
 	private static final long serialVersionUID = 1L;
 
-	private IEbookRepository ebookRepository;
-	private IBookstoreTranslator bookstoreTranslator;
+	private final IEbookRepository ebookRepository;
+	private final IBookstoreTranslator bookstoreTranslator;
 	
 	public BookReadingServlet(){
 		ebookRepository = Beans.getReference(IEbookRepository.class);

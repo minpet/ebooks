@@ -11,6 +11,10 @@ import com.minpet.local.interf.IVersionService;
 @ApplicationScoped
 public class VersionService implements IVersionService{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String version;
 	private String buildDate;
 

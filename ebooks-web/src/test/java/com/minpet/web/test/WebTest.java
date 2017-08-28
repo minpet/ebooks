@@ -112,14 +112,21 @@ public class WebTest {
 		WebDriverBackedSelenium selenium = new WebDriverBackedSelenium(driver, "http://localhost:"+port);
 		selenium.open("/test/index.html");
 		
-		File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		try 
-		{
-			File f = new File("target/screen1.png");
-			FileUtils.copyFile(srcFile, f);
-			LOGGER.log(Level.WARNING, "screenshot taken to "+f.getAbsolutePath());
-		} catch (IOException e) {
+		try{
+			selenium.click("link=Register as ebook");
+			selenium.click("link=Back");
+		}catch(Exception e){
 			e.printStackTrace();
+			try 
+			{
+				File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+				File f = new File("target/screen1.png");
+				FileUtils.copyFile(srcFile, f);
+				LOGGER.log(Level.WARNING, "screenshot taken to "+f.getAbsolutePath());
+			} catch (IOException e2) {
+				e2.printStackTrace();
+			}
+			throw e;
 		}finally{
 			driver.close();
 			driver.quit();

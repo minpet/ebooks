@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
@@ -37,7 +38,7 @@ public class CurrentRegistrationContext implements Serializable{
     	bookstoreTranslator = Beans.getReference(IBookstoreTranslator.class);
     }
     
-	public Ebook getCurrentEbook(String fileParam) throws Exception {
+	public Ebook getCurrentEbook(String fileParam) throws IOException {
 		if(currentEbook == null){
 			currentEbook = new Ebook();
 			File candidate = fileCandidateRepository.findByHashedName(fileParam);

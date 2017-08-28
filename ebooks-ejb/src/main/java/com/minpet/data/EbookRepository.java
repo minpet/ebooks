@@ -17,6 +17,8 @@
 package com.minpet.data;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -33,11 +35,14 @@ import com.minpet.model.Ebook;
 @ApplicationScoped
 public class EbookRepository implements IEbookRepository{
 
-    private EntityManager em;
-
+	private static final long serialVersionUID = 1L;
+	private transient EntityManager em;
+	private Logger log;
+	
     @Inject
-    public EbookRepository(EntityManager em){
+    public EbookRepository(EntityManager em, Logger log){
     	this.em = em;
+    	this.log=log;
     }
     
     @Transactional
@@ -56,6 +61,7 @@ public class EbookRepository implements IEbookRepository{
 	        criteria.select(ebook).where(cb.equal(ebook.get("file"), name)).orderBy(cb.asc(ebook.get("name")));
 	        return em.createQuery(criteria).getSingleResult();
 		}catch(NoResultException e){
+			log.log(Level.FINE, e.getMessage(), e);
 			return null;
 		}
 	}

@@ -62,7 +62,7 @@ public class NewEbookController {
     	return ebookSaved;
     }
     
-    public void register() throws Exception {
+    public void register(){
         try {
             ebookRegistration.register(newEbook);
             facesContext.addMessage(null,

@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,12 +42,14 @@ import com.minpet.local.interf.IEbookRegistration;
 import com.minpet.local.interf.IEbookRepository;
 import com.minpet.local.interf.IElasticSearchEbook;
 import com.minpet.local.interf.IFileCandidateRepository;
+import com.minpet.local.interf.IVersionService;
 import com.minpet.model.Ebook;
 import com.minpet.model.FileCandidate;
 import com.minpet.service.Base64ContentEncoder;
 import com.minpet.service.BookstoreTranslator;
 import com.minpet.service.EbookRegistration;
 import com.minpet.service.ElasticSearchEbook;
+import com.minpet.service.VersionService;
 import com.minpet.util.Resources;
 
 import net.sf.cglib.proxy.Callback;
@@ -80,6 +83,7 @@ public class EbookRegistrationTest {
                 		ElasticSearchEbook.class,
                 		BookstoreTranslator.class,
                 		Base64ContentEncoder.class,
+                		VersionService.class,
                 		//TEST
                 		MethodInterceptor.class,
                 		Callback.class,
@@ -89,11 +93,14 @@ public class EbookRegistrationTest {
                 		IEbookRepository.class.getPackage(),
                 		Awaitility.class.getPackage(),
                 		ProxyCreator.class.getPackage(),
-                		Objenesis.class.getPackage()
+                		Objenesis.class.getPackage(),
+                		Properties.class.getPackage(),
+                		IOException.class.getPackage()
                 		)
-                .addPackages(true, "com.fasterxml", "org.apache.commons.lang3", "org.apache.commons.io", "net.lingala")
+                .addPackages(true, "com.fasterxml", "org.apache.commons.lang3", "org.apache.commons.io", "net.lingala", "org.omnifaces")
                 .addAsLibraries(new File("target/test-libs").listFiles())
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
+                .addAsResource("version.txt")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 // Deploy our test datasource
                 .addAsWebInfResource("test-ds.xml", "test-ds.xml");
@@ -110,6 +117,9 @@ public class EbookRegistrationTest {
     
     @Inject
     Logger log;
+    
+    @Inject
+    IVersionService versionService;
 
     @Test
     public void testRegister() throws Exception {
@@ -126,6 +136,9 @@ public class EbookRegistrationTest {
         assertNotNull(newEbook.getId());
         log.info(newEbook.getName() + " was persisted with id " + newEbook.getId());
         elasticSearchEbook.createContent(newEbook);
+        
+        versionService.getBuildDate();
+        versionService.getVersion();
     }
 
 	public static void init() {
