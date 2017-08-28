@@ -16,7 +16,8 @@
  */
 package com.minpet.service;
 
-import com.minpet.data.EbookRepository;
+import com.minpet.local.interf.IEbookRegistration;
+import com.minpet.local.interf.IEbookRepository;
 import com.minpet.model.Ebook;
 
 import javax.ejb.Stateless;
@@ -26,20 +27,22 @@ import java.util.logging.Logger;
 
 // The @Stateless annotation eliminates the need for manual transaction demarcation
 @Stateless
-public class EbookRegistration {
+public class EbookRegistration implements IEbookRegistration{
 
-    @Inject
     private Logger log;
+    private IEbookRepository ebookRepository;
+    private Event<Ebook> ebookEventSrc;
 
     @Inject
-    private EbookRepository ebookRepository;
-
-    @Inject
-    private Event<Ebook> memberEventSrc;
-
-    public void register(Ebook ebook) throws Exception {
+    public EbookRegistration(Logger log, IEbookRepository ebookRepository, Event<Ebook> ebookEvenrSrc){
+    	this.log=log;
+    	this.ebookRepository=ebookRepository;
+    	this.ebookEventSrc=ebookEvenrSrc;
+    }
+    
+    public void register(Ebook ebook) {
         log.info("Registering " + ebook.getName());
         ebookRepository.save(ebook);
-        memberEventSrc.fire(ebook);
+        ebookEventSrc.fire(ebook);
     }
 }

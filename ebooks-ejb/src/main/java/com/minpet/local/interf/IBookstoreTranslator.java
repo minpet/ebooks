@@ -1,9 +1,11 @@
 package com.minpet.local.interf;
 
+import java.io.File;
+
 import com.minpet.model.Ebook;
 
 public interface IBookstoreTranslator {
 
-	String getFileFor(Ebook currentEbook);
+	File getFileFor(Ebook currentEbook);
 
 }

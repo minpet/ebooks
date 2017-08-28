@@ -21,8 +21,10 @@ import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
 import javax.enterprise.event.Reception;
 import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.omnifaces.util.Beans;
+
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,13 +34,14 @@ import com.minpet.model.Ebook;
 
 @RequestScoped
 public class EbookListProducer {
-
-    @Inject
-    private IEbookRepository ebookRepository;
-    
     private static final Logger LOGGER = Logger.getLogger(EbookListProducer.class.toString());
 
+    private IEbookRepository ebookRepository;
     private List<Ebook> ebooks;
+
+    public EbookListProducer(){
+    	ebookRepository = Beans.getReference(IEbookRepository.class);
+    }
 
     // @Named provides access the return value via the EL variable name "members" in the UI (e.g.,
     // Facelets or JSP view)

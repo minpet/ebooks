@@ -33,9 +33,13 @@ import com.minpet.model.Ebook;
 @ApplicationScoped
 public class EbookRepository implements IEbookRepository{
 
-    @Inject
     private EntityManager em;
 
+    @Inject
+    public EbookRepository(EntityManager em){
+    	this.em = em;
+    }
+    
     @Transactional
     @Override
     public Ebook findById(Long id) {

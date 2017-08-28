@@ -20,10 +20,10 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.jboss.logging.Logger;
+import org.omnifaces.util.Beans;
 
 import com.minpet.local.interf.IEbookRepository;
 import com.minpet.local.interf.IEbookService;
@@ -34,18 +34,17 @@ import com.minpet.model.Ebook;
 public class EbookController implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-
 	private static final Logger LOGGER = Logger.getLogger(EbookController.class);
 
-	@Inject
 	private IEbookRepository ebookRepository;
-	
-	@Inject
 	private IEbookService ebookService;
-	
 	private Ebook selectedEbook;
-	
 	private long selectedId;
+
+	public EbookController(){
+		ebookRepository = Beans.getReference(IEbookRepository.class);
+		ebookService = Beans.getReference(IEbookService.class);
+	}
 	
 	public void onload(){
 		LOGGER.debug("preloading selected ebook (id) "+selectedId);

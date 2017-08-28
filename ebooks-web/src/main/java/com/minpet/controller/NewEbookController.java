@@ -21,8 +21,9 @@ import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.omnifaces.util.Beans;
 
 import com.minpet.local.interf.IEbookRegistration;
 import com.minpet.model.Ebook;
@@ -30,20 +31,18 @@ import com.minpet.model.Ebook;
 @Model
 public class NewEbookController {
 	
-    @Inject
     private FacesContext facesContext;
-
-    @Inject
-    private IEbookRegistration memberRegistration;
-
-    @Inject
+    private IEbookRegistration ebookRegistration;
     private CurrentRegistrationContext currentRegistrationContext;
-    
     private Ebook newEbook;
-
     private String[] previewImages;
-    
     private boolean ebookSaved = false;
+    
+    public NewEbookController(){
+    	facesContext = Beans.getReference(FacesContext.class);
+    	ebookRegistration = Beans.getReference(IEbookRegistration.class);
+    	currentRegistrationContext = Beans.getReference(CurrentRegistrationContext.class);
+    }
     
     @Produces
     @Named
@@ -65,7 +64,7 @@ public class NewEbookController {
     
     public void register() throws Exception {
         try {
-            memberRegistration.register(newEbook);
+            ebookRegistration.register(newEbook);
             facesContext.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));
             ebookSaved = true;

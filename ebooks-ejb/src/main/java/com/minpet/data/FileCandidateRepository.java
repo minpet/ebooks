@@ -13,20 +13,28 @@ import javax.annotation.Resource;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 
+import com.minpet.local.interf.IEbookRepository;
+import com.minpet.local.interf.IFileCandidateRepository;
 import com.minpet.model.FileCandidate;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 @Singleton
-public class FileCandidateRepository {
+public class FileCandidateRepository implements IFileCandidateRepository{
 	
-	@Inject
-	private EbookRepository ebookRepository;
 	
+	@SuppressFBWarnings
 	@Resource(lookup="java:global/ebooks/bookstore")
 	private URL bookstoreUrl;
 
+	private IEbookRepository ebookRepository;
 	private ArrayList<File> files;
-
 	private Map<String, File> candidatesMap;
+
+	@Inject
+	public FileCandidateRepository(IEbookRepository ebookRepository){
+		this.ebookRepository = ebookRepository;
+	}
 	
 	public List<FileCandidate> getFileCandidates(){
 		List<FileCandidate> result = new ArrayList<>();

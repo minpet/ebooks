@@ -12,7 +12,8 @@ import java.util.Base64;
 
 import javax.enterprise.context.SessionScoped;
 import javax.imageio.ImageIO;
-import javax.inject.Inject;
+
+import org.omnifaces.util.Beans;
 
 import com.minpet.local.interf.IBookstoreTranslator;
 import com.minpet.local.interf.IFileCandidateRepository;
@@ -28,12 +29,13 @@ public class CurrentRegistrationContext implements Serializable{
 	
 	private Ebook currentEbook;
 	private String[] previewImages;
-
-    @Inject
     private IFileCandidateRepository fileCandidateRepository;
-    
-    @Inject
     private IBookstoreTranslator bookstoreTranslator;
+
+    public CurrentRegistrationContext(){
+    	fileCandidateRepository =  Beans.getReference(IFileCandidateRepository.class);
+    	bookstoreTranslator = Beans.getReference(IBookstoreTranslator.class);
+    }
     
 	public Ebook getCurrentEbook(String fileParam) throws Exception {
 		if(currentEbook == null){

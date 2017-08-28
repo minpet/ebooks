@@ -2,7 +2,6 @@ package com.minpet.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,26 +17,36 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
+import com.minpet.local.interf.IBookstoreTranslator;
+import com.minpet.local.interf.IElasticSearchEbook;
 import com.minpet.model.Ebook;
 
-@ApplicationScoped
-public class ElasticSearchEbook {
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-	@Inject
+@ApplicationScoped
+public class ElasticSearchEbook implements IElasticSearchEbook{
+
 	private Logger log;
-	
-	@Inject
-	private BookstoreTranslator bookstoreTranslator;
-	
-	@Inject
+	private IBookstoreTranslator bookstoreTranslator;
 	private Base64ContentEncoder base64ContentEncoder;
-	
+
+	@SuppressFBWarnings
 	@Resource(lookup="java:global/elasticsearch/host")
 	private String elasticSearchHost;
 	
+	@SuppressFBWarnings
 	@Resource(lookup="java:global/elasticsearch/port")
 	private int elasticSearchPort;
 
+	@Inject
+	public ElasticSearchEbook(Logger log, IBookstoreTranslator bookstoreTranslator,
+			Base64ContentEncoder base64ContentEncoder){
+		this.log=log;
+		this.bookstoreTranslator=bookstoreTranslator;
+		this.base64ContentEncoder=base64ContentEncoder;
+	}
+	
+	@Override
 	public void createContent(Ebook selectedEbook) throws IOException{
 		HttpHost target = new HttpHost(elasticSearchHost, elasticSearchPort, "http");
 
@@ -77,9 +86,6 @@ public class ElasticSearchEbook {
 		}catch(IOException e){
 			log.log(Level.SEVERE, e.getMessage(), e);
 			throw e;
-		} catch (URISyntaxException e) {
-			log.log(Level.SEVERE, e.getMessage(), e);
-			throw new IOException(e);
 		}
 	}
 

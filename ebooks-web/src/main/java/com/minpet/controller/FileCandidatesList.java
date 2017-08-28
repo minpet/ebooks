@@ -4,8 +4,9 @@ import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.omnifaces.util.Beans;
 
 import com.minpet.local.interf.IFileCandidateRepository;
 import com.minpet.model.FileCandidate;
@@ -13,8 +14,11 @@ import com.minpet.model.FileCandidate;
 @RequestScoped
 public class FileCandidatesList {
 
-	@Inject
 	private IFileCandidateRepository fileCandidateRepository;
+	
+	public FileCandidatesList(){
+		fileCandidateRepository = Beans.getReference(IFileCandidateRepository.class);
+	}
 	
 	@Produces
     @Named

@@ -37,7 +37,10 @@ import org.jboss.as.arquillian.api.ServerSetup;
 
 import com.minpet.data.EbookRepository;
 import com.minpet.data.FileCandidateRepository;
+import com.minpet.local.interf.IEbookRegistration;
 import com.minpet.local.interf.IEbookRepository;
+import com.minpet.local.interf.IElasticSearchEbook;
+import com.minpet.local.interf.IFileCandidateRepository;
 import com.minpet.model.Ebook;
 import com.minpet.model.FileCandidate;
 import com.minpet.service.Base64ContentEncoder;
@@ -97,13 +100,13 @@ public class EbookRegistrationTest {
     }
 
     @Inject
-    EbookRegistration memberRegistration;
+    IEbookRegistration memberRegistration;
 
     @Inject
-    FileCandidateRepository fileCandidateRepository;
+    IFileCandidateRepository fileCandidateRepository;
     
     @Inject
-    ElasticSearchEbook elasticSearchEbook;
+    IElasticSearchEbook elasticSearchEbook;
     
     @Inject
     Logger log;
