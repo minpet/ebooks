@@ -114,6 +114,7 @@ public class WebTest {
 		
 		try{
 			selenium.click("link=Register as ebook");
+			selenium.click("id=reg:register");
 			selenium.click("link=Back");
 			
 			selenium.click("link=Read");
