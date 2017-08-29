@@ -6,6 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
@@ -114,6 +115,7 @@ public class WebTest {
 		
 		try{
 			selenium.click("link=Register as ebook");
+			selenium.type("id=reg:name", "Test");
 			selenium.click("id=reg:register");
 			selenium.click("link=Back");
 			
@@ -127,6 +129,16 @@ public class WebTest {
 				File f = new File("target/screen1.png");
 				FileUtils.copyFile(srcFile, f);
 				LOGGER.log(Level.WARNING, "screenshot taken to "+f.getAbsolutePath());
+			
+				FileWriter writer = new FileWriter("target/error_pageSource.txt");
+				writer.write(driver.getPageSource());
+				writer.close();
+				
+				Object obj = driver.executeScript("return document.documentElement.outerHTML");
+				
+				writer = new FileWriter("target/error_pageDOM.txt");
+				writer.write(obj.toString());
+				writer.close();
 			} catch (IOException e2) {
 				e2.printStackTrace();
 			}
