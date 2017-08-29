@@ -66,12 +66,12 @@ public class NewEbookController {
     
     public void register(){
         try {
-            ebookRegistration.register(newEbook);
             facesContext.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful"));
             ebookSaved = true;
             currentRegistrationContext.clear();
             previewImages = currentRegistrationContext.getCurrentPreviewImages();
+            ebookRegistration.register(newEbook);
         } catch (Exception e) {
             String errorMessage = getRootErrorMessage(e);
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Registration Unsuccessful");

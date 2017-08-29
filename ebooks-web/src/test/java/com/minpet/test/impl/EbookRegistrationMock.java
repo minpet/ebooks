@@ -10,7 +10,7 @@ public class EbookRegistrationMock implements IEbookRegistration{
 
 	@Override
 	public void register(Ebook newEbook) {
-		
+		throw new RuntimeException("test exception");
 	}
 
 }
