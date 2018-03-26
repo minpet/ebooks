@@ -60,7 +60,7 @@
          </h:column>
       </h:dataTable>
       
-      <h:panelGroup rendered="#{not empty fileCandidates}">
+      <h:panelGroup rendered="#{request.isUserInRole('authenticated') and not empty fileCandidates}">
 	      <h2>File candidates</h2>
 	      <h:dataTable var="_file" value="#{fileCandidates}" rendered="#{not empty fileCandidates}" styleClass="simpletablestyle">
 	         <h:column>

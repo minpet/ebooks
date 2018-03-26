@@ -2,13 +2,16 @@ package com.minpet.web.test;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Enumeration;
@@ -27,6 +30,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.omnifaces.util.Beans;
@@ -73,7 +77,28 @@ public class WebTest {
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF/templates", "default.xhtml"), "templates/default.xhtml")
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF", "beans.xml"))
 				.addAsWebInfResource(new File("src/main/webapp/WEB-INF", "faces-config.xml"))
+				.setWebXML(new File("src/test/resources/web.xml"))
 				;
+	}
+	
+	@BeforeClass
+	public static void users() {
+		Process p;
+		
+		try {
+			p = Runtime.getRuntime().exec("./target/wildfly-10.1.0.Final/bin/add-user.sh -a -g authenticated test test");
+			try(InputStreamReader ioReader = new InputStreamReader(p.getInputStream());
+					BufferedReader reader = new BufferedReader(ioReader)){
+				String str;
+				System.out.println("---------------------");
+				while((str = reader.readLine())!=null && p.isAlive()) {
+					System.out.println(str);
+				}
+				System.out.println("---------------------");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
@@ -102,6 +127,9 @@ public class WebTest {
 		
 		DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
 		capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, driverFile.getAbsolutePath());
+		capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_PAGE_SETTINGS_PREFIX+"userName", "test");
+		capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_PAGE_SETTINGS_PREFIX+"password", "test");
+		
 		
 		PhantomJSDriver driver = new PhantomJSDriver(capabilities);		
 		driver.manage().window().setSize(new Dimension(1024, 768));
@@ -114,7 +142,13 @@ public class WebTest {
 		selenium.open("/test/index.html");
 		
 		try{
-			selenium.click("link=Register as ebook");
+			try {
+				selenium.click("link=Register as ebook");
+				fail();
+			} catch(Exception expected){
+				selenium.click("link=Login");
+				selenium.click("link=Register as ebook");
+			}
 			selenium.type("id=reg:name", "Test");
 			selenium.click("id=reg:register");
 			selenium.click("link=Back");

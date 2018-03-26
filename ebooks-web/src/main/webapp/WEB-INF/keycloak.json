@@ -1,0 +1,12 @@
+{
+  "realm": "WildflyMiniApps",
+  "auth-server-url": "https://build-machine.local/auth",
+  "ssl-required": "external",
+  "resource": "wildfly-server",
+  "credentials": {
+    "secret": "14da79f5-4410-4c0e-87ec-828f7892a276"
+  },
+  "confidential-port": 0,
+  "disable-trust-manager": true,
+  "principal-attribute" : "preferred_username"
+}
