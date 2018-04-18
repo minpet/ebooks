@@ -53,9 +53,11 @@
             	<f:param name="i" value="#{_ebook.id}"/>
             </h:link>
             <h:panelGroup rendered="#{not _ebook.indexed}">
-            	<h:commandLink actionListener="#{ebookController.createIndex(_ebook.id)}" value="Index">
-            		<f:ajax render="@form"/>
-            	</h:commandLink>
+            	<h:form>
+            		<h:commandLink actionListener="#{ebookController.createIndex(_ebook.id)}" value="Index">
+            			<f:ajax render="@form"/>
+            		</h:commandLink>
+            	</h:form>
             </h:panelGroup>
          </h:column>
       </h:dataTable>

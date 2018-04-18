@@ -155,6 +155,8 @@ public class WebTest {
 			
 			selenium.click("link=Read");
 			selenium.click("link=Back");
+			
+			selenium.click("link=Index");
 		}catch(Exception e){
 			e.printStackTrace();
 			try 

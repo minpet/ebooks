@@ -20,7 +20,7 @@ public class EbookRepositoryMock implements IEbookRepository{
 		ebook.setFile("test.pdf");
 		ebook.setName("test");
 		ebook.setId(1L);
-		ebook.setIndexed(true);
+		ebook.setIndexed(false);
 		ebook.setRegistered(true);
 	}
 	
