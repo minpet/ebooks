@@ -39,13 +39,13 @@
       <h:panelGroup rendered="#{empty ebooks}">
          <em>No registered ebooks.</em>
       </h:panelGroup>
-      <h:dataTable var="_ebook" value="#{ebooks}" rendered="#{not empty ebooks}" styleClass="simpletablestyle">
-         <h:column>
-            <f:facet name="header">Name</f:facet>
+      <p:dataTable var="_ebook" value="#{ebooks}" rendered="#{not empty ebooks}" styleClass="simpletablestyle"
+      				rows="20" paginator="true" rowsPerPageTemplate="20,30,50"
+      				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+         <p:column headerText="Name">
                 #{_ebook.name}
-         </h:column>
-         <h:column>
-            <f:facet name="header">Actions</f:facet>
+         </p:column>
+         <p:column headerText="Actions">
             <h:link outcome="read" value="Read">
             	<f:param name="i" value="#{_ebook.id}"/>
             </h:link>
@@ -56,8 +56,8 @@
             		</h:commandLink>
             	</h:form>
             </h:panelGroup>
-         </h:column>
-      </h:dataTable>
+         </p:column>
+      </p:dataTable>
       
       <h:panelGroup rendered="#{request.isUserInRole('authenticated') and not empty fileCandidates}">
 	      <h2>File candidates</h2>
