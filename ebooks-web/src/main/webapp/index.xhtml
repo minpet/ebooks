@@ -61,13 +61,13 @@
       
       <h:panelGroup rendered="#{request.isUserInRole('authenticated') and not empty fileCandidates}">
 	      <h2>File candidates</h2>
-	      <h:dataTable var="_file" value="#{fileCandidates}" rendered="#{not empty fileCandidates}" styleClass="simpletablestyle">
-	         <h:column>
-	            <f:facet name="header">Name</f:facet>
+	      <p:dataTable var="_file" value="#{fileCandidates}" rendered="#{not empty fileCandidates}" styleClass="simpletablestyle"
+	      			rows="20" paginator="true" rowsPerPageTemplate="20,30,50"
+      				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+	         <p:column  headerText="Name">
 	            #{_file.underlyingFile.name}
-	         </h:column>
-	         <h:column>
-	            <f:facet name="header">Action</f:facet>
+	         </p:column>
+	         <p:column headerText="Action">
 	            <h:link value="Register as ebook" outcome="register" >
 					<f:param name="file" value="#{_file.hashedName}" />
 				</h:link>
@@ -77,8 +77,8 @@
 	        		<h:outputText class="fa fa-fw fa-trash"/>
 	        		<f:setPropertyActionListener value="#{_file}" target="#{fileCandidateDeletionController.selectedFile}"/>
 	        	</p:commandLink>
-	         </h:column>
-	      </h:dataTable>
+	         </p:column>
+	      </p:dataTable>
 	      
 	      <p:dialog header="Confirm Deletion" widgetVar="deleteFileConfirm" minHeight="40" dynamic="true">
 	      	<h:panelGrid columns="1">
