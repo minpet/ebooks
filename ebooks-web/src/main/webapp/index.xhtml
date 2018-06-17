@@ -19,6 +19,7 @@
    xmlns:ui="http://java.sun.com/jsf/facelets"
    xmlns:f="http://java.sun.com/jsf/core"
    xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://primefaces.org/ui"
    template="/WEB-INF/templates/default.xhtml">
    <ui:define name="content">
       <h1>Welcome to Ebook Virtual library!</h1>
@@ -70,8 +71,29 @@
 	            <h:link value="Register as ebook" outcome="register" >
 					<f:param name="file" value="#{_file.hashedName}" />
 				</h:link>
+				
+				<p:commandLink oncomplete="PF('deleteFileConfirm').show();" 
+					        	update="@parent" id="delete-file">
+	        		<h:outputText class="fa fa-fw fa-trash"/>
+	        		<f:setPropertyActionListener value="#{_file}" target="#{fileCandidateDeletionController.selectedFile}"/>
+	        	</p:commandLink>
 	         </h:column>
 	      </h:dataTable>
+	      
+	      <p:dialog header="Confirm Deletion" widgetVar="deleteFileConfirm" minHeight="40" dynamic="true">
+	      	<h:panelGrid columns="1">
+			  <h:outputText value="Are you sure you want to delete this file?"/>
+			  
+			  <h:panelGroup id="buttons">
+			   	<p:commandButton action="#{fileCandidateDeletionController.nothing()}"  
+			    	value="No"
+			    	oncomplete="PF('deleteFileConfirm').hide();" update="@all"/>
+			    <p:commandButton action="#{fileCandidateDeletionController.deleteFile()}" 
+			    	value="Yes"
+			    	oncomplete="PF('deleteFileConfirm').hide();" update="@all"/>
+			    </h:panelGroup>
+			 </h:panelGrid>
+			</p:dialog>
       </h:panelGroup>
    </ui:define>
 </ui:composition>

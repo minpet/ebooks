@@ -7,8 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
@@ -23,6 +24,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class FileCandidateRepository implements IFileCandidateRepository{
 	
 	private static final long serialVersionUID = 1L;
+	private static final Logger LOGGER = Logger.getLogger(FileCandidateRepository.class.getName());
 
 	@SuppressFBWarnings
 	@Resource(lookup="java:global/ebooks/bookstore")
@@ -38,6 +40,22 @@ public class FileCandidateRepository implements IFileCandidateRepository{
 	}
 	
 	public List<FileCandidate> getFileCandidates(){
+		candidatesMap = new HashMap<>();
+		String protocol = bookstoreUrl.getProtocol();
+		if("file".equals(protocol)){
+			files = new ArrayList<File>();
+			try {
+				File f = new File(bookstoreUrl.toURI());
+				for(File file : f.listFiles()){
+					files.add(file);
+				}
+			} catch(URISyntaxException e) {
+				LOGGER.log(Level.SEVERE, e.getMessage(), e);
+			}
+		}else{
+			throw new UnsupportedOperationException("'java:global/ebooks/bookstore' needs to have file:// protocol, but "+protocol+" found");
+		}
+		
 		List<FileCandidate> result = new ArrayList<>();
 		for(File file : files){
 			if(ebookRepository.findEbookByFileName(file.getName()) == null)
@@ -52,21 +70,6 @@ public class FileCandidateRepository implements IFileCandidateRepository{
 		return result;
 	}
 	
-	@PostConstruct
-	private void init() throws URISyntaxException{
-		candidatesMap = new HashMap<>();
-		String protocol = bookstoreUrl.getProtocol();
-		if("file".equals(protocol)){
-			files = new ArrayList<File>();
-			File f = new File(bookstoreUrl.toURI());
-			for(File file : f.listFiles()){
-				files.add(file);
-			}
-		}else{
-			throw new UnsupportedOperationException("'java:global/ebooks/bookstore' needs to have file:// protocol, but "+protocol+" found");
-		}
-	}
-
 	public File findByHashedName(String string) {
 		return candidatesMap.get(string);
 	}
