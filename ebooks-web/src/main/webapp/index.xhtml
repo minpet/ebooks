@@ -39,25 +39,34 @@
       <h:panelGroup rendered="#{empty ebooks}">
          <em>No registered ebooks.</em>
       </h:panelGroup>
-      <p:dataTable var="_ebook" value="#{ebooks}" rendered="#{not empty ebooks}" styleClass="simpletablestyle"
-      				rows="20" paginator="true" rowsPerPageTemplate="20,30,50"
-      				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-         <p:column headerText="Name">
-                #{_ebook.name}
-         </p:column>
-         <p:column headerText="Actions">
-            <h:link outcome="read" value="Read">
-            	<f:param name="i" value="#{_ebook.id}"/>
-            </h:link>
-            <h:panelGroup rendered="#{not _ebook.indexed}">
-            	<h:form>
-            		<h:commandLink actionListener="#{ebookController.createIndex(_ebook.id)}" value="Index">
-            			<f:ajax render="@form"/>
-            		</h:commandLink>
-            	</h:form>
-            </h:panelGroup>
-         </p:column>
-      </p:dataTable>
+      
+      <h:panelGroup rendered="#{not empty ebooks}">
+      	  <h:form>
+          Search ebooks' text: <h:inputText value="#{searchController.searchValue}"/><h:commandButton value="Search" action="#{searchController.search}"/>
+		      <p:dataTable var="_ebook" value="#{ebooks}" styleClass="simpletablestyle"
+		      				rows="20" paginator="true" rowsPerPageTemplate="20,30,50"
+		      				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+		         <p:column headerText="Name">
+		                #{_ebook.name}
+		         </p:column>
+		         <p:column headerText="Actions">
+		            <h:link outcome="read" value="Read">
+		            	<f:param name="i" value="#{_ebook.id}"/>
+		            </h:link>
+		            <h:panelGroup rendered="#{not _ebook.indexed}">
+		            	<h:form>
+		            		<p:commandLink actionListener="#{ebookController.createIndex(_ebook.id)}" value="Index"
+		            			onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update="@form">
+		            		</p:commandLink>
+		            	</h:form>
+		            </h:panelGroup>
+		         </p:column>
+		      </p:dataTable>
+	      </h:form>
+	      <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+	          <p:graphicImage name="gfx/ajaxloadingbar.gif" />
+	      </p:dialog>
+      </h:panelGroup>
       
       <h:panelGroup rendered="#{request.isUserInRole('authenticated') and not empty fileCandidates}">
 	      <h2>File candidates</h2>
