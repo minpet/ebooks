@@ -17,6 +17,8 @@
 package com.minpet.controller;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
@@ -37,7 +39,7 @@ public class NewEbookController {
     private IEbookRegistration ebookRegistration;
     private CurrentRegistrationContext currentRegistrationContext;
     private Ebook newEbook;
-    private String[] previewImages;
+    private List<String> previewImages;
     private boolean ebookSaved = false;
     
     public NewEbookController(){
@@ -54,7 +56,7 @@ public class NewEbookController {
 
     @Produces
     @Named
-    public String[] getPreviewImages(){
+    public Collection<String> getPreviewImages(){
     	return previewImages;
     }
     

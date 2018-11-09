@@ -9,7 +9,9 @@ import java.io.RandomAccessFile;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 import javax.imageio.ImageIO;
@@ -29,7 +31,7 @@ public class CurrentRegistrationContext implements Serializable{
 	private static final int PREVIEW_IMAGES_NUM = 5;
 	
 	private Ebook currentEbook;
-	private String[] previewImages;
+	private List<String> previewImages;
     private IFileCandidateRepository fileCandidateRepository;
     private IBookstoreTranslator bookstoreTranslator;
 
@@ -45,7 +47,7 @@ public class CurrentRegistrationContext implements Serializable{
 	    	currentEbook.setFile(candidate.getName());
 
 	        try(RandomAccessFile raf = new RandomAccessFile(bookstoreTranslator.getFileFor(currentEbook), "r")){
-	        	previewImages = new String[PREVIEW_IMAGES_NUM];
+	        	previewImages = new ArrayList<String>(PREVIEW_IMAGES_NUM);
 	        	FileChannel channel = raf.getChannel();
 	        	ByteBuffer buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
 	        	PDFFile pdffile = new PDFFile(buf);
@@ -70,7 +72,7 @@ public class CurrentRegistrationContext implements Serializable{
 	                byte[] imageBytes = bos.toByteArray();
 	     
 	                byte[] result = Base64.getEncoder().encode(imageBytes);
-	                previewImages[i-1] = new String(result);
+	                previewImages.add(new String(result));
 	                bos.close();
 	        	}
 	        }
@@ -78,7 +80,7 @@ public class CurrentRegistrationContext implements Serializable{
 		return currentEbook;
 	}
 
-	public String[] getCurrentPreviewImages() {
+	public List<String> getCurrentPreviewImages() {
 		return previewImages;
 	}
 

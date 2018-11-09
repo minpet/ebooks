@@ -23,11 +23,12 @@
             </h:panelGrid>
          </p>
          
-            <h:panelGrid columns="5" rendered="#{not empty newEbookController.previewImages}">
+        <h:panelGrid columns="5" rendered="#{not empty newEbookController.previewImages}" class="gallery">
             	<c:forEach var="image" items="#{newEbookController.previewImages}">
             		<img src="data:image/png;base64,#{image}" width="85%" height="85%" alt="preview"/>
             	</c:forEach>
-            </h:panelGrid>
+        </h:panelGrid>
+            
       </h:form>
       
       <div>
