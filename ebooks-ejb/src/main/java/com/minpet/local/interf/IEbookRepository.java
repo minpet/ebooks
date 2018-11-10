@@ -17,4 +17,6 @@ public interface IEbookRepository extends Serializable{
 
 	void save(Ebook ebook);
 
+	List<String> findConflictsFor(String name);
+
 }

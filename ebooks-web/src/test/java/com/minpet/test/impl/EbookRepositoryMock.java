@@ -51,4 +51,9 @@ public class EbookRepositoryMock implements IEbookRepository{
 		
 	}
 
+	@Override
+	public List<String> findConflictsFor(String name) {
+		return new ArrayList<>();
+	}
+
 }

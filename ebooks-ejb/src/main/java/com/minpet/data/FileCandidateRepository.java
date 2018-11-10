@@ -62,6 +62,7 @@ public class FileCandidateRepository implements IFileCandidateRepository{
 			{
 				FileCandidate candidate = new FileCandidate();
 				candidate.setUnderlyingFile(file);
+				candidate.setConflicts(ebookRepository.findConflictsFor(candidate.getUnderlyingFile().getName()));
 				candidatesMap.put(candidate.getHashedName(), candidate.getUnderlyingFile());
 				result.add(candidate);
 			}

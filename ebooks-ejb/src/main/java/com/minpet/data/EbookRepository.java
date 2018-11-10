@@ -16,6 +16,7 @@
  */
 package com.minpet.data;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -90,5 +91,22 @@ public class EbookRepository implements IEbookRepository{
 	@Override
 	public void save(Ebook ebook){
 		em.persist(ebook);
+	}
+
+	@Override
+	public List<String> findConflictsFor(String name) {
+		String normalizedName = normalize(name);
+		List<String> result = new ArrayList<>();
+		for(Ebook candidate : findAllOrderedByName()) {
+			String normalizedCandidate = normalize(candidate.getName());
+			if(normalizedCandidate.contains(normalizedName) || normalizedName.contains(normalizedCandidate)) {
+				result.add(candidate.getName());
+			}
+		}
+		return result;
+	}
+
+	private String normalize(String name) {
+		return name.replaceAll("[^A-Za-z]", "").toLowerCase();
 	}
 }
