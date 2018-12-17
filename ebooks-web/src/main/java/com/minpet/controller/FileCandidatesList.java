@@ -23,6 +23,10 @@ public class FileCandidatesList {
 	@Produces
     @Named
     public List<FileCandidate> getFileCandidates() {
-        return fileCandidateRepository.getFileCandidates();
+        List<FileCandidate> result = fileCandidateRepository.getFileCandidates();
+        result.sort((FileCandidate f1, FileCandidate f2)->{
+        	return f1.getUnderlyingFile().getName().compareTo(f2.getUnderlyingFile().getName());
+        });
+        return result;
     }
 }
