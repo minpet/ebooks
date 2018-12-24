@@ -62,7 +62,7 @@ public class EbookRepository implements IEbookRepository{
 	        criteria.select(ebook).where(cb.equal(ebook.get("file"), name)).orderBy(cb.asc(ebook.get("name")));
 	        return em.createQuery(criteria).getSingleResult();
 		}catch(NoResultException e){
-			log.log(Level.FINE, e.getMessage(), e);
+			log.log(Level.FINE, e.getMessage()+" ["+name+"]", e);
 			return null;
 		}
 	}

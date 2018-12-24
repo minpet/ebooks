@@ -31,6 +31,7 @@ public class EbookService implements IEbookService{
 	@Transactional
 	public void createIndex(Long selectedEbookId) {
 		try {
+			log.fine("looking up ebook "+selectedEbookId);
 			Ebook selectedEbook = ebookRepository.findById(selectedEbookId);
 			elasticSearchEbook.createContent(selectedEbook);
 			selectedEbook.setIndexed(true);

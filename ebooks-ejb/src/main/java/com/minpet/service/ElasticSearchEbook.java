@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -28,7 +27,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @ApplicationScoped
 public class ElasticSearchEbook implements IElasticSearchEbook{
-
+	private static final long serialVersionUID = 1L;
 	private transient Logger log;
 	private IBookstoreTranslator bookstoreTranslator;
 	private Base64ContentEncoder base64ContentEncoder;
