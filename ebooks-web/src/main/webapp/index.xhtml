@@ -54,11 +54,9 @@
 		            	<f:param name="i" value="#{_ebook.id}"/>
 		            </h:link>
 		            <h:panelGroup rendered="#{not _ebook.indexed}">
-		            	<h:form>
-		            		<p:commandLink actionListener="#{ebookController.createIndex(_ebook.id)}" value="Index"
-		            			onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update="@form">
-		            		</p:commandLink>
-		            	</h:form>
+		           		<p:commandLink actionListener="#{ebookController.createIndex(_ebook.id)}" value="Index"
+		            		onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update="@form">
+		            	</p:commandLink>
 		            </h:panelGroup>
 		         </p:column>
 		      </p:dataTable>
