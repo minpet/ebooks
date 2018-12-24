@@ -79,10 +79,11 @@ public class ElasticSearchEbook implements IElasticSearchEbook{
 			StringEntity params =new StringEntity(builder.toString());
 		    request.setEntity(params);
 			
-
+		    log.fine("sending request to http://"+elasticSearchHost+":"+elasticSearchPort+"/"+uri);
 			CloseableHttpResponse response = httpclient.execute(target, request);
 
 			int responseCode = response.getStatusLine().getStatusCode();
+			log.fine("response = "+responseCode);
 			if(responseCode < 200 || responseCode >= 400){
 				throw new IOException(response.getStatusLine().getReasonPhrase());
 			}
