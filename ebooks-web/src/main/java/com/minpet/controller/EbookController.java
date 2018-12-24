@@ -65,6 +65,7 @@ public class EbookController implements Serializable{
 	}
 	
 	public void createIndex(String selectedEbookId) throws IOException{
+		LOGGER.debug("creating index for "+selectedEbookId);
 		if(!selectedEbookId.trim().equals("")){
 			ebookService.createIndex(Long.valueOf(selectedEbookId));
 		}
