@@ -30,13 +30,12 @@ public class EbookService implements IEbookService{
 	
 	@Transactional
 	public void createIndex(Long selectedEbookId) {
-		
-		Ebook selectedEbook = ebookRepository.findById(selectedEbookId);
 		try {
+			Ebook selectedEbook = ebookRepository.findById(selectedEbookId);
 			elasticSearchEbook.createContent(selectedEbook);
 			selectedEbook.setIndexed(true);
 			ebookRepository.save(selectedEbook);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
