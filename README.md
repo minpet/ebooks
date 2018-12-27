@@ -9,6 +9,7 @@ Source: <https://github.com/wildfly/quickstart/>
 
 What is it?
 -----------
+test
 
 This is your project! It is a sample, deployable Maven 3 project to help you get your foot in the door developing with Java EE 7 on JBoss WildFly.
 
