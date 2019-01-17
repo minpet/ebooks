@@ -38,7 +38,6 @@ public class FileCandidateCache implements IFileCandidateCache{
 	@Override
 	public void setCachedValues(List<FileCandidate> cache) {
 		log.log(Level.FINER, "refreshshing cache contents");
-		System.out.println("refreshing cache contents");
 		this.cache = cache;
 		valid = true;
 	}
