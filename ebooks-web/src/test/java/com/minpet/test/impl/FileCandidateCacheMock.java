@@ -3,9 +3,12 @@ package com.minpet.test.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import com.minpet.local.interf.IFileCandidateCache;
 import com.minpet.model.FileCandidate;
 
+@ApplicationScoped
 public class FileCandidateCacheMock implements IFileCandidateCache {
 
 	private List<FileCandidate> cache = new ArrayList<>();
