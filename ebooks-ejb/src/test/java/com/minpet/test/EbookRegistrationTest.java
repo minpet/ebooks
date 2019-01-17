@@ -37,7 +37,6 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.as.arquillian.api.ServerSetup;
 
 import com.minpet.data.EbookRepository;
-import com.minpet.data.FileCandidateRepository;
 import com.minpet.local.interf.IEbookRegistration;
 import com.minpet.local.interf.IEbookRepository;
 import com.minpet.local.interf.IEbookService;
@@ -79,8 +78,6 @@ public class EbookRegistrationTest {
                 		Ebook.class,
                 		FileCandidate.class, 
                 		EbookRegistration.class,
-                		FileCandidateRepository.class,
-                		EbookRepository.class,
                 		EbookService.class,
                 		Resources.class,
                 		ElasticSearchEbook.class,
@@ -94,6 +91,7 @@ public class EbookRegistrationTest {
                 		)
                 .addPackages(true,
                 		IEbookRepository.class.getPackage(),
+                		EbookRepository.class.getPackage(),
                 		Awaitility.class.getPackage(),
                 		ProxyCreator.class.getPackage(),
                 		Objenesis.class.getPackage(),
