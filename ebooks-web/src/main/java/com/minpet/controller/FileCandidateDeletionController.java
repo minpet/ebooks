@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.logging.Logger;
 
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.minpet.local.interf.IFileCandidateCache;
 import com.minpet.model.FileCandidate;
 
 @ViewScoped
@@ -17,6 +19,9 @@ public class FileCandidateDeletionController implements Serializable{
 
 	private FileCandidate selectedFile;
 
+	@Inject
+	private IFileCandidateCache fileCandidateCache; 
+	
 	public FileCandidate getSelectedFile() {
 		return selectedFile;
 	}
@@ -27,7 +32,9 @@ public class FileCandidateDeletionController implements Serializable{
 	
 	public void deleteFile() {
 		if(selectedFile != null) {
-			if(!selectedFile.getUnderlyingFile().delete()) {
+			if(selectedFile.getUnderlyingFile().delete()) {
+				fileCandidateCache.invalidate();
+			} else {
 				LOGGER.warning("file "+selectedFile.getUnderlyingFile().getAbsolutePath()+" could not be deleted!");
 			}
 		}

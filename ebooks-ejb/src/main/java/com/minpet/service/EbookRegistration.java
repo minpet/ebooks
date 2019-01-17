@@ -18,6 +18,7 @@ package com.minpet.service;
 
 import com.minpet.local.interf.IEbookRegistration;
 import com.minpet.local.interf.IEbookRepository;
+import com.minpet.local.interf.IFileCandidateCache;
 import com.minpet.model.Ebook;
 
 import javax.ejb.Stateless;
@@ -33,17 +34,21 @@ public class EbookRegistration implements IEbookRegistration{
 	private transient Logger log;
     private IEbookRepository ebookRepository;
     private transient Event<Ebook> ebookEventSrc;
+	private IFileCandidateCache fileCandidateCache;
 
     @Inject
-    public EbookRegistration(Logger log, IEbookRepository ebookRepository, Event<Ebook> ebookEvenrSrc){
+    public EbookRegistration(Logger log, IEbookRepository ebookRepository, Event<Ebook> ebookEvenrSrc,
+    		IFileCandidateCache fileCandidateCache){
     	this.log=log;
     	this.ebookRepository=ebookRepository;
     	this.ebookEventSrc=ebookEvenrSrc;
+    	this.fileCandidateCache = fileCandidateCache;
     }
     
     public void register(Ebook ebook) {
         log.info("Registering " + ebook.getName());
         ebookRepository.save(ebook);
+        fileCandidateCache.invalidate();
         ebookEventSrc.fire(ebook);
     }
 }
