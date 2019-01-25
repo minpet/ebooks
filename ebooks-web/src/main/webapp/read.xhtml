@@ -32,7 +32,9 @@
 		<br/>
 		<br/>
 		<div>
-			<pe:documentViewer height="1000" width="800" url="/read/#{ebookController.selectedEbook.hashedName}.ebook" />
+			<pe:documentViewer height="1000" width="800" 
+			url="/read/#{ebookController.selectedEbook.hashedName}.ebook" 
+			download="#{ebookController.selectedEbook.name}.pdf"/>
 		</div>
 		
 		<div>

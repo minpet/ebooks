@@ -66,7 +66,7 @@
 	      </p:dialog>
       </h:panelGroup>
       
-      <h:panelGroup rendered="#{request.isUserInRole('authenticated') and not empty fileCandidates}">
+      <h:panelGroup rendered="#{request.isUserInRole('authenticated')}">
 	      <h2>File candidates</h2>
 	      <p:commandButton value="Refresh candidates list" ajax="true" update="@parent" actionListener="#{refreshCandidatesController.refresh}"/><br/>
 	      <p:dataTable var="_file" value="#{fileCandidates}" rendered="#{not empty fileCandidates}" styleClass="simpletablestyle"
