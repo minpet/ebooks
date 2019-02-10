@@ -13,10 +13,14 @@ import javax.inject.Inject;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.nio.entity.NStringEntity;
+import org.elasticsearch.client.Request;
+import org.elasticsearch.client.Response;
+import org.elasticsearch.client.RestClient;
 
 import com.minpet.http.HttpGetWithEntity;
 import com.minpet.local.interf.IBookstoreTranslator;
@@ -50,20 +54,13 @@ public class ElasticSearchEbook implements IElasticSearchEbook{
 	
 	@Override
 	public void createContent(Ebook selectedEbook) throws IOException{
-		HttpHost target = new HttpHost(elasticSearchHost, elasticSearchPort, "http");
+		
+		HttpHost host = new HttpHost(elasticSearchHost, elasticSearchPort);		
+		RestClient client = RestClient.builder(host).build();
+		
+		String uri = "/ebook/pdf/"+selectedEbook.getId();
 
-		String uri = "/ebook/pdf/"+selectedEbook.getId()+"?pipeline=attachment";
-		try(CloseableHttpClient httpclient = HttpClients.createMinimal()){
-
-			@SuppressWarnings("deprecation")
-			RequestConfig config = RequestConfig.custom()
-				.setAuthenticationEnabled(false)
-				.setStaleConnectionCheckEnabled(false).build();
-
-			HttpPut request = new HttpPut(uri);
-			request.setConfig(config);
-			request.addHeader("content-type", "application/x-www-form-urlencoded");
-
+		try {
 			File pdf = bookstoreTranslator.getFileFor(selectedEbook);
 			String base64Data = base64ContentEncoder.encodeFileToBase64Binary(pdf);
 			
@@ -75,12 +72,16 @@ public class ElasticSearchEbook implements IElasticSearchEbook{
 			builder.append("\"data\":\""+base64Data+"\"");
 			builder.append(" } ");
 			
-			StringEntity params =new StringEntity(builder.toString());
-		    request.setEntity(params);
+			NStringEntity params =new NStringEntity(builder.toString(), ContentType.APPLICATION_JSON);
 			
-		    log.fine("sending request to http://"+elasticSearchHost+":"+elasticSearchPort+"/"+uri);
-			CloseableHttpResponse response = httpclient.execute(target, request);
-
+		    String message = "sending request to http://"+elasticSearchHost+":"+elasticSearchPort+"/"+uri;
+		    System.out.println(message);
+		    log.fine(uri);
+		    Request req = new Request("POST", uri);
+		    req.addParameter("pipeline", "attachment");
+		    req.setEntity(params);
+			Response response = client.performRequest(req);
+		    
 			int responseCode = response.getStatusLine().getStatusCode();
 			log.fine("response = "+responseCode);
 			if(responseCode < 200 || responseCode >= 400){
