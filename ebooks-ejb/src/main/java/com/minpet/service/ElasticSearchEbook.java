@@ -75,8 +75,7 @@ public class ElasticSearchEbook implements IElasticSearchEbook{
 			NStringEntity params =new NStringEntity(builder.toString(), ContentType.APPLICATION_JSON);
 			
 		    String message = "sending request to http://"+elasticSearchHost+":"+elasticSearchPort+"/"+uri;
-		    System.out.println(message);
-		    log.fine(uri);
+		    log.fine(message);
 		    Request req = new Request("POST", uri);
 		    req.addParameter("pipeline", "attachment");
 		    req.setEntity(params);
