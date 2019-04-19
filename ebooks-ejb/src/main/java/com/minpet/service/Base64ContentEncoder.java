@@ -1,8 +1,6 @@
 package com.minpet.service;
 
 import java.awt.image.RenderedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -11,10 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.imageio.ImageIO;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.cos.COSName;
 import org.apache.pdfbox.io.RandomAccessFile;
 import org.apache.pdfbox.pdfparser.PDFParser;
@@ -62,7 +58,7 @@ public class Base64ContentEncoder implements Serializable{
 					LOG.debug(e.getMessage(), e);
 				}
 				
-				if(!StringUtils.isEmpty(str)) {
+				if(str != null && !"".equals(str.trim())) {
 					sb.append(str);
 				} else {
 					LOG.warn("no text found on page "+i);
