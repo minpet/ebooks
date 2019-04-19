@@ -19,6 +19,7 @@ package com.minpet.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -28,10 +29,16 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpHost;
 import org.awaitility.Awaitility;
 import org.awaitility.proxy.ProxyCreator;
+import org.elasticsearch.client.Request;
+import org.elasticsearch.client.Response;
+import org.elasticsearch.client.RestClient;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.as.arquillian.api.ServerSetup;
@@ -51,8 +58,10 @@ import com.minpet.service.EbookRegistration;
 import com.minpet.service.EbookService;
 import com.minpet.service.ElasticSearchEbook;
 import com.minpet.service.VersionService;
+import com.minpet.service.ocr.OcrEngine;
 import com.minpet.util.Resources;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import net.sf.cglib.proxy.Callback;
 import net.sf.cglib.proxy.MethodInterceptor;
 import pl.allegro.tech.embeddedelasticsearch.EmbeddedElastic;
@@ -84,6 +93,7 @@ public class EbookRegistrationTest {
                 		BookstoreTranslator.class,
                 		Base64ContentEncoder.class,
                 		VersionService.class,
+                		OcrEngine.class,
                 		//TEST
                 		MethodInterceptor.class,
                 		Callback.class,
@@ -102,6 +112,7 @@ public class EbookRegistrationTest {
                 .addAsLibraries(new File("target/test-libs").listFiles())
                 .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
                 .addAsResource("version.txt")
+                .addAsResource("all.png")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 // Deploy our test datasource
                 .addAsWebInfResource("test-ds.xml", "test-ds.xml");
@@ -124,28 +135,53 @@ public class EbookRegistrationTest {
     
     @Inject
     IEbookService ebookService;
+    
+	@SuppressFBWarnings
+	@Resource(lookup="java:global/elasticsearch/host")
+	private String elasticSearchHost;
+	
+	@SuppressFBWarnings
+	@Resource(lookup="java:global/elasticsearch/port")
+	private int elasticSearchPort;
 
     @Test
     public void testRegister() throws Exception {
     	init();
     	List<FileCandidate> candidates = fileCandidateRepository.getFileCandidates();
     	
-    	assertEquals(candidates.size(), 1);
-    	
-        Ebook newEbook = new Ebook();
-        newEbook.setName("Jane Doe");
-        newEbook.setFile(candidates.get(0).getUnderlyingFile().getName());
-        newEbook.setHashedName(candidates.get(0).getHashedName());
-        memberRegistration.register(newEbook);
-        assertNotNull(newEbook.getId());
-        log.info(newEbook.getName() + " was persisted with id " + newEbook.getId());
-        elasticSearchEbook.createContent(newEbook);
+    	assertEquals(candidates.size(), 2);
+        
+        for(int i =0; i<candidates.size(); i++) {
+        	Ebook newEbook = new Ebook();
+        	newEbook.setName("Jane Doe "+i);
+        	newEbook.setFile(candidates.get(i).getUnderlyingFile().getName());
+        	newEbook.setHashedName(candidates.get(i).getHashedName());
+        	memberRegistration.register(newEbook);
+        	assertNotNull(newEbook.getId());
+        	log.info(newEbook.getName() + " was persisted with id " + newEbook.getId());
+        	elasticSearchEbook.createContent(newEbook);
+        	valideContent(newEbook);
+        	ebookService.createIndex(newEbook.getId());
+        }
         
         versionService.getBuildDate();
         versionService.getVersion();
         
-        ebookService.createIndex(newEbook.getId());
     }
+
+	private void valideContent(Ebook ebook) throws IOException {
+		HttpHost host = new HttpHost(elasticSearchHost, elasticSearchPort);		
+		RestClient client = RestClient.builder(host).build();
+		
+		String uri = "/ebook/pdf/"+ebook.getId();
+		
+		Request req = new Request("GET", uri);
+	    Response response = client.performRequest(req);
+	    
+	    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	    IOUtils.copy(response.getEntity().getContent(), baos);
+	    log.warning(baos.toString());
+	}
 
 	public static void init() {
 		try {

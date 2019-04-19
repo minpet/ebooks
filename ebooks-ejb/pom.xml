@@ -67,9 +67,15 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>com.aspose</groupId>
-			<artifactId>aspose-ocr</artifactId>
-			<version>17.6</version>
+		    <groupId>com.uddernetworks.newocr</groupId>
+		    <artifactId>NewOCR</artifactId>
+		    <version>1.2.1-java8</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.5</version>
 		</dependency>
 
         <!-- Import the EJB API, we use provided scope as the API is included in JBoss WildFly -->

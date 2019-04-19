@@ -1,9 +1,5 @@
 package com.minpet.service;
 
-import com.aspose.ocr.ImageStream;
-import com.aspose.ocr.ImageStreamFormat;
-import com.aspose.ocr.OcrEngine;
-
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -30,6 +26,8 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.jboss.logging.Logger;
 
+import com.minpet.service.ocr.OcrEngine;
+
 @ApplicationScoped
 public class Base64ContentEncoder implements Serializable{
 
@@ -50,7 +48,7 @@ public class Base64ContentEncoder implements Serializable{
 			PDDocument pdoc = parser.getPDDocument();
 			PDFTextStripper textStripper = new PDFTextStripper();
 			
-			OcrEngine ocrEngine = new OcrEngine();
+			OcrEngine ocrEngine = OcrEngine.getInstance();
 			for(int i=0; i<pdoc.getNumberOfPages(); i++) {
 				PDPage page = pdoc.getPage(i);
 				textStripper.setStartPage(i);
@@ -59,17 +57,10 @@ public class Base64ContentEncoder implements Serializable{
 				
 				sb.append(str);
 				for(RenderedImage image : getImagesForPage(page.getResources())) {
-					ByteArrayOutputStream baos = new ByteArrayOutputStream();
-					ImageIO.write(image, "png", baos);
-					try(ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray())){
-					ocrEngine.setImage(ImageStream.fromStream(bais, ImageStreamFormat.Png));
-						try {
-							if(ocrEngine.process()) {
-								sb.append(ocrEngine.getText());
-							}
-						} catch(Exception e) {
-							LOG.error(e.getMessage(), e);
-						}
+					try {
+						sb.append(ocrEngine.performOcr(image));
+					} catch(Exception e) {
+						LOG.error(e.getMessage(), e);
 					}
 				}
 			}
