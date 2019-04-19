@@ -22,6 +22,7 @@ public class OcrEngine {
 	private OCRHandle ocrHandle;
 
 	private OcrEngine() throws IOException {
+		/*
 		File tempdb = File.createTempFile("ocr", "db");
 		DatabaseManager db = new OCRDatabaseManager(tempdb);
 		ocrHandle = new OCRHandle(db);
@@ -32,6 +33,7 @@ public class OcrEngine {
 		}
 		ocrHandle.trainImage(tempTrain);
 		tempTrain.delete();
+		*/
 	}
 	
 	public static OcrEngine getInstance() throws IOException {
@@ -47,13 +49,14 @@ public class OcrEngine {
 	}
 
 	public String performOcr(RenderedImage img) throws IOException{
+		/*
 		File tmpImage = File.createTempFile("img", ".png");
 		ImageIO.write(img, "PNG", tmpImage);
 		ScannedImage scanned = ocrHandle.scanImage(tmpImage);
 		String result = scanned.getPrettyString();
 		tmpImage.delete();
 		return result;
-		
-		
+		*/
+		throw new IOException("OCR disabled");
 	}
 }
