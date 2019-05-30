@@ -34,6 +34,8 @@
     </licenses>
     <modules>
         <module>ebooks-ejb</module>
+        <module>ebooks-json</module>
+        <module>ebooks-rest</module>
         <module>ebooks-web</module>
         <module>ebooks-ear</module>
     </modules>
@@ -78,8 +80,24 @@
                 <type>ejb</type>
             </dependency>
             
+            <dependency>
+                <groupId>com.minpet</groupId>
+                <artifactId>ebooks-json</artifactId>
+                <version>${project.version}</version>
+                <type>jar</type>
+                <scope>compile</scope>
+            </dependency>
+            
             <!-- Define the version of the WAR so that we don't need to repeat 
                 ourselves in every module -->
+            <dependency>
+                <groupId>com.minpet</groupId>
+                <artifactId>ebooks-rest</artifactId>
+                <version>${project.version}</version>
+                <type>war</type>
+                <scope>compile</scope>
+            </dependency>
+                
             <dependency>
                 <groupId>com.minpet</groupId>
                 <artifactId>ebooks-web</artifactId>

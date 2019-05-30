@@ -37,15 +37,11 @@ import com.minpet.model.Ebook;
 public class EbookRepository implements IEbookRepository{
 
 	private static final long serialVersionUID = 1L;
+	@Inject
 	private transient EntityManager em;
+	@Inject
 	private transient Logger log;
 	
-    @Inject
-    public EbookRepository(EntityManager em, Logger log){
-    	this.em = em;
-    	this.log=log;
-    }
-    
     @Transactional
     @Override
     public Ebook findById(Long id) {

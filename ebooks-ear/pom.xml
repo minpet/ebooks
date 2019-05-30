@@ -49,6 +49,11 @@
         </dependency>
         <dependency>
             <groupId>com.minpet</groupId>
+            <artifactId>ebooks-rest</artifactId>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>com.minpet</groupId>
             <artifactId>ebooks-ejb</artifactId>
             <type>ejb</type>
         </dependency>
@@ -71,40 +76,7 @@
                     <fileNameMapping>no-version</fileNameMapping>
                 </configuration>
             </plugin>
-            <!-- The WildFly plugin deploys your ear to a local WildFly container -->
-            <!-- Due to Maven's lack of intelligence with EARs we need to configure 
-                the wildfly maven plugin to skip deployment for all modules. We then enable
-                it specifically in the ear module. -->
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <configuration>
-                    <filename>${project.artifactId}.ear</filename>
-                    <skip>false</skip>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
    
-    <profiles>
-        <profile>
-            <!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. -->
-            <!-- Use this profile for any OpenShift specific customization your app will need. -->
-            <!-- By default that is to put the resulting archive into the 'deployments' folder. -->
-            <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
-            <id>openshift</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-ear-plugin</artifactId>
-                        <version>${version.ear.plugin}</version>
-                        <configuration>
-                            <outputDirectory>deployments</outputDirectory>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
 </project>
