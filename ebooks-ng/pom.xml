@@ -13,6 +13,10 @@
     <artifactId>ebooks-ng</artifactId> 
     <packaging>war</packaging>
 
+    <properties>
+      <sonar.typescript.tsconfigPath>tsconfig.json</sonar.typescript.tsconfigPath>
+    </properties>
+
     <build>
      <plugins>
       <plugin> 
