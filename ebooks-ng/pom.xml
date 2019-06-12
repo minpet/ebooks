@@ -20,7 +20,20 @@
         <artifactId>exec-maven-plugin</artifactId> 
         <version>1.6.0</version> <executions>
           <execution>
-            <id>test</id>
+            <id>npm install</id>
+            <goals> 
+             <goal>exec</goal> 
+            </goals> 
+            <phase>generate-resources</phase>
+          <configuration> 
+           <executable>npm</executable> 
+           <arguments>
+            <argument>install</argument> 
+           </arguments> 
+          </configuration>
+          </execution>
+          <execution>
+            <id>ng install</id>
             <goals> 
              <goal>exec</goal> 
             </goals> 
