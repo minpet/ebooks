@@ -15,6 +15,7 @@
 
     <properties>
       <sonar.typescript.tsconfigPath>tsconfig.json</sonar.typescript.tsconfigPath>
+      <sonar.sources>src/app/**/*</sonar.sources>
     </properties>
 
     <build>
