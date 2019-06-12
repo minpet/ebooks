@@ -36,6 +36,7 @@
         <module>ebooks-ejb</module>
         <module>ebooks-json</module>
         <module>ebooks-rest</module>
+        <module>ebooks-ng</module>
         <module>ebooks-web</module>
         <module>ebooks-ear</module>
     </modules>
@@ -93,6 +94,14 @@
             <dependency>
                 <groupId>com.minpet</groupId>
                 <artifactId>ebooks-rest</artifactId>
+                <version>${project.version}</version>
+                <type>war</type>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.minpet</groupId>
+                <artifactId>ebooks-ng</artifactId>
                 <version>${project.version}</version>
                 <type>war</type>
                 <scope>compile</scope>

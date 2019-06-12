@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <name>ebooks-ng</name>
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+     <groupId>com.minpet</groupId>
+     <artifactId>ebooks</artifactId>
+     <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>ebooks-ng</artifactId> 
+    <packaging>war</packaging>
+
+    <build>
+     <plugins>
+      <plugin> 
+       <groupId>org.codehaus.mojo</groupId> 
+        <artifactId>exec-maven-plugin</artifactId> 
+        <version>1.6.0</version> <executions>
+          <execution>
+            <id>test</id>
+            <goals> 
+             <goal>exec</goal> 
+            </goals> 
+            <phase>generate-resources</phase>
+          <configuration> 
+           <executable>npm</executable> 
+           <arguments>
+            <argument>run</argument> 
+            <argument>build-dist</argument>
+           </arguments> 
+          </configuration>
+          </execution>
+        </executions> 
+       </plugin>
+
+       <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>${version.war.plugin}</version>
+         <configuration>
+          <webResources>
+           <resource>
+            <directory>dist/ebooks-ng</directory>
+           </resource>
+          </webResources>
+         </configuration>
+       </plugin>
+
+     </plugins>
+
+    </build>
+</project>

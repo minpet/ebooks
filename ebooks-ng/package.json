@@ -7,7 +7,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build-dist":"ng build --prod=true --progress=true --baseHref=/ebooks-ng/",
+    "local":"ng serve --port 3001 --open"
   },
   "private": true,
   "dependencies": {

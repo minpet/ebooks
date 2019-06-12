@@ -54,6 +54,11 @@
         </dependency>
         <dependency>
             <groupId>com.minpet</groupId>
+            <artifactId>ebooks-ng</artifactId>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>com.minpet</groupId>
             <artifactId>ebooks-ejb</artifactId>
             <type>ejb</type>
         </dependency>
