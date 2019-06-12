@@ -28,7 +28,8 @@
           <configuration> 
            <executable>npm</executable> 
            <arguments>
-            <argument>install --verbose</argument> 
+            <argument>install</argument>
+            <argument>--verbose</argument> 
            </arguments> 
           </configuration>
           </execution>
