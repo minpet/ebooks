@@ -11,9 +11,6 @@
       "check-space"
     ],
     "curly": true,
-    "deprecation": {
-      "severity": "warn"
-    },
     "eofline": true,
     "forin": true,
     "import-blacklist": [
@@ -65,7 +62,6 @@
     ],
     "no-misused-new": true,
     "no-non-null-assertion": true,
-    "no-redundant-jsdoc": true,
     "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-string-throw": true,

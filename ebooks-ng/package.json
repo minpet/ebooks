@@ -8,9 +8,11 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-dist": "ng build --prod=true --progress=true --baseHref=/ebooks-ng/",
+    "build-prod": "ng build --prod=true --progress=true --baseHref=/ebooks-ng/",
+    "build-wildfly": "ng build --prod=true --configuration wildfly --progress=true --baseHref=/ebooks-ng/",
     "local": "ng serve --port 3001 --open",
-    "json": "json-server data.js -p 3500 -m authMiddleware.js"
+    "json": "json-server data.js -p 3500",
+    "editor": "alm"
   },
   "private": true,
   "dependencies": {

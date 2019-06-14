@@ -16,6 +16,7 @@
     <properties>
       <sonar.typescript.tsconfigPath>tsconfig.json</sonar.typescript.tsconfigPath>
       <sonar.sources>src/app</sonar.sources>
+      <ng.environment>prod</ng.environment>
     </properties>
 
     <build>
@@ -48,7 +49,7 @@
            <executable>npm</executable> 
            <arguments>
             <argument>run</argument> 
-            <argument>build-dist</argument>
+            <argument>build-${ng.environment}</argument>
            </arguments> 
           </configuration>
           </execution>

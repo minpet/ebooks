@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  restEbookBaseURL: 'http://localhost:3500/ebook',
+  restFileCandidateBaseURL: 'http://localhost:3500/fileCandidate'
 };
 
 /*
