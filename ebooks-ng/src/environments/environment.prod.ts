@@ -4,7 +4,7 @@ import { KeycloakConfig } from 'keycloak-angular';
 let keycloakConfig: KeycloakConfig = {
   url: 'http://build-machine.local/auth',
   realm: 'WildflyMiniApps',
-  clientId: 'Angular-client',
+  clientId: 'angular-client',
   "credentials": {
     "secret": "1fa36aad-4783-49fe-b0bb-5b7ad791a233"
   }
