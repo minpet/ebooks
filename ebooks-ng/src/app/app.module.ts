@@ -36,7 +36,7 @@ const routes = RouterModule.forRoot([
 })
 export class AppModule { }
 
-function initKeycloak(keycloak: KeycloakService): () => Promise<any> {
+export function initKeycloak(keycloak: KeycloakService): () => Promise<any> {
   return (): Promise<any> => keycloak.init(
         {
           config: environment.keycloak,
