@@ -2,8 +2,21 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { KeycloakConfig } from 'keycloak-angular';
+
+// Add here your keycloak setup infos
+const keycloakConfig: KeycloakConfig = {
+  url: 'http://172.18.0.22:8080/auth',
+  realm: 'devMiniApps',
+  clientId: 'angular-client',
+  'credentials': {
+    'secret': 'b7a7d6f1-a651-46b7-9468-2840b1e22837'
+  }
+};
+
 export const environment = {
   production: false,
+  keycloak : keycloakConfig,
   restEbookBaseURL: 'http://localhost:3500/ebook',
   restFileCandidateBaseURL: 'http://localhost:3500/fileCandidate'
 };
