@@ -4,7 +4,7 @@
   "ssl-required": "external",
   "resource": "wildfly-server",
   "credentials": {
-    "secret": "14da79f5-4410-4c0e-87ec-828f7892a276"
+    "secret": "1dda2099-3baa-4e15-a576-61b35f45b75b"
   },
   "confidential-port": 0,
   "disable-trust-manager": true,
