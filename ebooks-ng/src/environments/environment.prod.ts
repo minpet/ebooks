@@ -6,7 +6,7 @@ let keycloakConfig: KeycloakConfig = {
   realm: 'WildflyMiniApps',
   clientId: 'angular-client',
   "credentials": {
-    "secret": "1fa36aad-4783-49fe-b0bb-5b7ad791a233"
+    "secret": "2f78fed4-29f0-4aed-982a-d8d9792c8ffe"
   }
 };
 
