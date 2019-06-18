@@ -1,18 +1,14 @@
 <div>
-  <div id="header" class='bg-primary text-white'>
-    <h3>Ebooks Library</h3>
+  <div id="header" class='bg-primary text-white text-center jumbotron'>
+    <h1>Ebooks Library</h1>
   </div>
   <div class="row">
     <div class="col-3 p-2">
-      <button class="btn btn-outline-primary" (click)="changeMenu(adminMenu)">
-       {{adminMenu.name}}
+      <button *ngFor="let currentMenu of menuLinks" class="btn btn-outline-primary btn-block" (click)="changeMenu(currentMenu)"
+      [class.active]="currentMenu == selectedMenu"
+      [class.btn-outline-danger]="currentMenu.name === 'Admin'">
+        {{currentMenu.name}}
       </button>
-      <!--
-      <button *ngFor="let menu in menuLinks" class="btn btn-outline-primary" (click)="changeMenu(menu)"
-              [class.active]="menu == selectedMenu">
-        {{menu.name}}
-      </button>
-      -->
     </div>
     <div class="col-9">
       <router-outlet></router-outlet>

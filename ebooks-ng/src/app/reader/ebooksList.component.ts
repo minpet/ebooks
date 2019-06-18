@@ -7,9 +7,28 @@ import { EbookRepository } from '../model/ebook/ebook.repository';
 })
 export class EbooksListComponent {
 
+  public selectedPage = 1;
+  public itemsPerPage = 10;
+
   constructor(private repo: EbookRepository) { }
 
   get ebooks(): Ebook[]{
-    return this.repo.getEbooks();
+    const pageIndex = (this.selectedPage - 1) * this.itemsPerPage;
+    return this.repo.getEbooks().slice(pageIndex, pageIndex + this.itemsPerPage);
   }
+
+  changePage(newPage: number) {
+    this.selectedPage = newPage;
+  }
+
+  changePageSize(newPageSize) {
+    this.itemsPerPage = newPageSize;
+    this.changePage(1);
+  }
+
+  get pageNumbers(): number {
+    return Math.ceil(this.repo.getEbooks().length / this.itemsPerPage);
+  }
+
+
 }

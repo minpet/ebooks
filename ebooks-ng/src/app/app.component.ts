@@ -9,6 +9,7 @@ import { MenuLink } from './model/common/menuLink.model';
 })
 export class AppComponent {
   private links: MenuLink[] = [];
+  public selectedMenu: MenuLink = null;
 
   constructor(private router: Router) {
     this.links = [new MenuLink('Ebooks', '/ebooks'),
@@ -21,9 +22,8 @@ export class AppComponent {
 
   changeMenu(menu: MenuLink) {
     if (menu) {
+      this.selectedMenu = menu;
       this.router.navigateByUrl(menu.target);
     }
   }
-
-  public adminMenu = new MenuLink('Admin', '/admin');
 }

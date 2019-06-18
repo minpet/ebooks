@@ -10,7 +10,7 @@ const keycloakConfig: KeycloakConfig = {
   realm: 'devMiniApps',
   clientId: 'angular-client',
   'credentials': {
-    'secret': 'b7a7d6f1-a651-46b7-9468-2840b1e22837'
+    'secret': 'a19de592-adfb-4217-b554-86f3d85b1a6a'
   }
 };
 
