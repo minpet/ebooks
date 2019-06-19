@@ -18,15 +18,13 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 @ApplicationScoped
 public class BookstoreTranslator implements IBookstoreTranslator{
 	
+	private static final long serialVersionUID = 1L;
+	
 	@SuppressFBWarnings
 	@Resource(lookup="java:global/ebooks/bookstore")
     private URL bookstoreUrl;
-	private transient Logger log;
-
 	@Inject
-	public BookstoreTranslator(Logger log){
-		this.log=log;
-	}
+	private transient Logger log;
 	
 	public File getFileFor(Ebook currentEbook) {
 		try {
