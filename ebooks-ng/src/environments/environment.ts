@@ -18,7 +18,8 @@ export const environment = {
   production: false,
   keycloak : keycloakConfig,
   restEbookBaseURL: 'http://localhost:3500/ebook',
-  restFileCandidateBaseURL: 'http://localhost:3500/fileCandidate'
+  restFileCandidateBaseURL: 'http://172.18.0.21:8080/ebooks-rest/admin/fileCandidate'
+
 };
 
 /*

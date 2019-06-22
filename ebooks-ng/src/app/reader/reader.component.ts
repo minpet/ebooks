@@ -7,12 +7,15 @@ import { EbookRepository } from './../model/ebook/ebook.repository';
   templateUrl: './reader.component.html'
 })
 export class ReaderComponent {
-  public selectedEbook: Ebook;
 
-  constructor(private repo: EbookRepository, private route: ActivatedRoute) {
-    const selectedId: number = Number(route.snapshot.params['id']);
-    this.selectedEbook = repo.getEbooks().find(ebook => ebook.id === selectedId);
+  constructor(private repo: EbookRepository, private route: ActivatedRoute) {}
+
+  get ready() {
+    return this.repo.populated;
   }
 
-
+  get selectedEbook(): Ebook {
+     const selectedId: number = Number(this.route.snapshot.params['id']);
+    return this.repo.getEbooks().find(ebook => ebook.id === selectedId);
+  }
 }

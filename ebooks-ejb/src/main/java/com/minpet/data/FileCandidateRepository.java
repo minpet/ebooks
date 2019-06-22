@@ -31,16 +31,13 @@ public class FileCandidateRepository implements IFileCandidateRepository{
 	@Resource(lookup="java:global/ebooks/bookstore")
 	private URL bookstoreUrl;
 
-	private IEbookRepository ebookRepository;
 	private ArrayList<File> files;
 	private Map<String, File> candidatesMap;
+	@Inject
+	private IEbookRepository ebookRepository;
+	@Inject
 	private IFileCandidateCache fileCandidateCache;
 
-	@Inject
-	public FileCandidateRepository(IEbookRepository ebookRepository, IFileCandidateCache fileCandidateCache){
-		this.ebookRepository = ebookRepository;
-		this.fileCandidateCache = fileCandidateCache;
-	}
 	
 	public List<FileCandidate> getFileCandidates(){
 		if(fileCandidateCache.isValid()) {
