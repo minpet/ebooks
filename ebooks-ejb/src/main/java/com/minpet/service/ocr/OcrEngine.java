@@ -10,16 +10,16 @@ import javax.imageio.ImageIO;
 
 import org.apache.commons.io.IOUtils;
 
-import com.uddernetworks.newocr.OCRHandle;
-import com.uddernetworks.newocr.ScannedImage;
-import com.uddernetworks.newocr.database.DatabaseManager;
-import com.uddernetworks.newocr.database.OCRDatabaseManager;
+//import com.uddernetworks.newocr.OCRHandle;
+//import com.uddernetworks.newocr.ScannedImage;
+//import com.uddernetworks.newocr.database.DatabaseManager;
+//import com.uddernetworks.newocr.database.OCRDatabaseManager;
 
 public class OcrEngine {
 	
 	private static volatile OcrEngine instance;
 	private static Object mutex =new Object();
-	private OCRHandle ocrHandle;
+//	private OCRHandle ocrHandle;
 
 	private OcrEngine() throws IOException {
 		/*
