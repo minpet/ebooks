@@ -31,24 +31,23 @@ import java.util.logging.Logger;
 public class EbookRegistration implements IEbookRegistration{
 
 	private static final long serialVersionUID = 1L;
+	@Inject
 	private transient Logger log;
+	
+	@Inject
     private IEbookRepository ebookRepository;
-    private transient Event<Ebook> ebookEventSrc;
-	private IFileCandidateCache fileCandidateCache;
-
+    
     @Inject
-    public EbookRegistration(Logger log, IEbookRepository ebookRepository, Event<Ebook> ebookEvenrSrc,
-    		IFileCandidateCache fileCandidateCache){
-    	this.log=log;
-    	this.ebookRepository=ebookRepository;
-    	this.ebookEventSrc=ebookEvenrSrc;
-    	this.fileCandidateCache = fileCandidateCache;
-    }
+    private transient Event<Ebook> ebookEventSrc;
+    
+    @Inject
+	private IFileCandidateCache fileCandidateCache;
     
     public void register(Ebook ebook) {
         log.info("Registering " + ebook.getName());
         ebookRepository.save(ebook);
         fileCandidateCache.invalidate();
         ebookEventSrc.fire(ebook);
+        ebook.setRegistered(true);
     }
 }

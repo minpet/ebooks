@@ -1,3 +1,15 @@
 <div class="bg-secondary">
-  Register file {{ebook.underlyingFileName}}
+  Register file {{ebookRegistration.underlyingFileName}}
 </div>
+<form novalidate #form="ngForm" (ngSubmit)="submitForm(form)">
+  <div class="form-group">
+    <label>Name</label>
+    <input class="form-control"
+          name="name"
+          [(ngModel)]="ebookRegistration.name"
+          required
+          min-length="5"
+    />
+  </div>
+  <button class="btn btn-primary" type="submit">Register</button>
+</form>

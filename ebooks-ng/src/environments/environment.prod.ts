@@ -13,6 +13,7 @@ const keycloakConfig: KeycloakConfig = {
 export const environment = {
   production: true,
   restEbookBaseURL: `https://${location.hostname}/ebooks-rest/ebook`,
+  restEbookRegisterBaseURL: `https://${location.hostname}/ebooks-rest/admin/ebookRegister`,
   restFileCandidateBaseURL: `https://${location.hostname}/ebooks-rest/admin/fileCandidate`,
   keycloak: keycloakConfig,
 };

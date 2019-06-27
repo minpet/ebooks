@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { EbookRegistration } from './ebookRegistration.model';
 
 @Injectable()
 export class EbookDataSource {
@@ -30,5 +31,22 @@ export class EbookDataSource {
     });
 
     return null;
+  }
+
+  registerEbook(ebookRegistration: EbookRegistration): Promise<Ebook> {
+    return new Promise<Ebook>((resolve) => {
+
+      this.tokenHolder.getToken().then(data => {
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${data}`
+          })
+        };
+        this.http.post<Ebook>(environment.restEbookRegisterBaseURL, ebookRegistration, httpOptions).subscribe(ebook => {
+          resolve(ebook);
+        });
+      });
+    });
   }
 }
