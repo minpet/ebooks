@@ -8,7 +8,6 @@ export class TokenHolder {
 
   public getToken(): Promise<string> {
     if (this.keycloakAngular.isLoggedIn()) {
-      console.log('logged in, getting token');
       return this.keycloakAngular.getToken();
     } else {
       console.log('token not aquired, user not logged in');

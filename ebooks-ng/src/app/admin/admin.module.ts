@@ -1,24 +1,29 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ModelModule } from '../model/model.module';
 import { ReaderModule } from './../reader/reader.module';
 import { EbookEditorComponent } from './ebookEditor.component';
 import { AdminActionsComponent } from './adminActions.component';
 import { FileCandidatesComponent } from './fileCandidates.component';
 import { RefreshFileCandidateDataGuard } from './guards/refreshFileCandidatesData.guard';
 import { FileCandidateRefresher } from './service/fileCandidateRefresher';
+import { CommonModule as ApplicationCommonModule } from '../common/common.module';
+import { FileCandidatesFirstGuard } from './guards/fileCandidatesFirst.guard';
+import { FileCandidateRegistrationComponent } from './fileCandidateRegistration.component';
 
 const routes = RouterModule.forChild([
-  { path: 'ebook/{mode}/{id}', component: EbookEditorComponent },
+  { path: 'ebook/edit/:id', component: EbookEditorComponent },
   { path: 'actions', component: AdminActionsComponent },
-  { path: 'fileCandidates', component: FileCandidatesComponent, canActivate : [RefreshFileCandidateDataGuard]},
+  { path: 'fileCandidates/register/:hashedName', component: FileCandidateRegistrationComponent, canActivate: [FileCandidatesFirstGuard]},
+  { path: 'fileCandidates', component: FileCandidatesComponent, canActivate : [RefreshFileCandidateDataGuard, FileCandidatesFirstGuard]},
   { path: '**', redirectTo: 'actions'}
 ]);
 
 @NgModule({
-  imports: [CommonModule, RouterModule, routes],
-  declarations: [AdminActionsComponent, EbookEditorComponent, FileCandidatesComponent],
-  providers: [RefreshFileCandidateDataGuard, FileCandidateRefresher]
+  imports: [ApplicationCommonModule, ModelModule, CommonModule, RouterModule, routes],
+  declarations: [AdminActionsComponent, EbookEditorComponent, FileCandidatesComponent, FileCandidateRegistrationComponent],
+  providers: [RefreshFileCandidateDataGuard, FileCandidateRefresher, FileCandidatesFirstGuard]
 })
 export class AdminModule { };
 

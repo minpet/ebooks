@@ -10,6 +10,7 @@ public class EbookJson {
 	private long id;
 	private String name;
 	private URI uri;
+	private String underlyingFileName;
 	
 	public long getId() {
 		return id;
@@ -28,6 +29,12 @@ public class EbookJson {
 	}
 	public void setUri(URI uri) {
 		this.uri = uri;
+	}
+	public String getUnderlyingFileName() {
+		return underlyingFileName;
+	}
+	public void setUnderlyingFileName(String underlyingFileName) {
+		this.underlyingFileName = underlyingFileName;
 	}
 
 }
