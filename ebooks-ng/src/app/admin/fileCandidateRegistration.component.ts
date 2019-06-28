@@ -13,14 +13,16 @@ export class FileCandidateRegistrationComponent {
   ebookRegistration: EbookRegistration = new EbookRegistration();
 
   constructor(private router: Router, private activeRoute: ActivatedRoute, private repo: EbookRepository) {
-    this.ebookRegistration.underlyingFileName = activeRoute.snapshot.params['hashedName'];
+    this.ebookRegistration.hashedName = activeRoute.snapshot.params['hashedName'];
   }
 
 
   submitForm(form: NgForm) {
     if (form.valid) {
       this.repo.registerEbook(this.ebookRegistration).then(isOK => {
-
+        if (isOK) {
+          this.router.navigateByUrl('/admin/fileCandidates');
+        }
       });
     }
   }

@@ -2,7 +2,7 @@ package com.minpet.rest.json;
 
 public class EbookRegistrationJson {
 	private String name;
-	private String underlyingFile;
+	private String hashedName;
 	private boolean autoIndex;
 	
 	public String getName() {
@@ -11,11 +11,11 @@ public class EbookRegistrationJson {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getUnderlyingFile() {
-		return underlyingFile;
+	public String getHashedName() {
+		return hashedName;
 	}
-	public void setUnderlyingFile(String underlyingFile) {
-		this.underlyingFile = underlyingFile;
+	public void setHashedName(String hashedName) {
+		this.hashedName = hashedName;
 	}
 	public boolean isAutoIndex() {
 		return autoIndex;

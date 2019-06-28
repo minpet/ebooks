@@ -1,5 +1,7 @@
 package com.minpet.rest.admin;
 
+import java.io.File;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -12,12 +14,13 @@ import javax.ws.rs.core.UriInfo;
 import org.jboss.logging.Logger;
 
 import com.minpet.local.interf.IEbookRegistration;
+import com.minpet.local.interf.IFileCandidateRepository;
 import com.minpet.model.Ebook;
 import com.minpet.rest.EbookResource;
 import com.minpet.rest.json.EbookJson;
 import com.minpet.rest.json.EbookRegistrationJson;
 
-@Path("/admin/registerEbook")
+@Path("/admin/ebookRegister")
 @RequestScoped
 public class RegisterEbookResource {
 	
@@ -26,20 +29,29 @@ public class RegisterEbookResource {
 	@Inject
 	private IEbookRegistration ebookRegistration;
 	
+	@Inject
+	private IFileCandidateRepository fileCandidateRepository;
+	
+	@Context 
+	private UriInfo uriInfo;
+	
 	@POST
 	@Produces("application/json")
 	@Consumes("application/json")
-	public EbookJson registerEbook(@Context UriInfo uriInfo, EbookRegistrationJson registrationReq){
+	public EbookJson registerEbook(EbookRegistrationJson registrationReq) throws Exception{
 		Ebook ebook = new Ebook();
-		ebook.setFile(registrationReq.getUnderlyingFile());
+		
+		File f = fileCandidateRepository.findByHashedName(registrationReq.getHashedName());
+		
 		ebook.setName(registrationReq.getName());
-		try {
-			ebookRegistration.register(ebook);
-			if(ebook.isRegistered()) {
-				return EbookResource.convert(ebook, uriInfo);
-			}
-		} catch(Exception e) {LOGGER.error(e.getMessage(), e);}
-	
-		throw new IllegalArgumentException("Wrong registration provided");
+		ebook.setHashedName(registrationReq.getHashedName());
+		ebook.setFile(f.getName());
+		ebookRegistration.register(ebook);
+		
+		if(ebook.isRegistered()) {
+			return EbookResource.convert(ebook, uriInfo);
+		}
+		
+		return null;
 	}
 }
