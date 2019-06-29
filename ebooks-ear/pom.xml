@@ -44,11 +44,6 @@
         <!-- Depend on the ejb module and war so that we can package them -->
         <dependency>
             <groupId>com.minpet</groupId>
-            <artifactId>ebooks-web</artifactId>
-            <type>war</type>
-        </dependency>
-        <dependency>
-            <groupId>com.minpet</groupId>
             <artifactId>ebooks-rest</artifactId>
             <type>war</type>
         </dependency>

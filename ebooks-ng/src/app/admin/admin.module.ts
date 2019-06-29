@@ -11,6 +11,7 @@ import { FileCandidatesFirstGuard } from './guards/fileCandidatesFirst.guard';
 import { FileCandidateRegistrationComponent } from './fileCandidateRegistration.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule as ApplicationCommonModule } from '../common/common.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const routes = RouterModule.forChild([
   { path: 'ebook/edit/:id', component: EbookEditorComponent },
@@ -21,7 +22,7 @@ const routes = RouterModule.forChild([
 ]);
 
 @NgModule({
-  imports: [CommonModule, routes, FormsModule, ApplicationCommonModule],
+  imports: [CommonModule, routes, FormsModule, ApplicationCommonModule, NgbModule],
   declarations: [AdminActionsComponent, EbookEditorComponent, FileCandidatesComponent, FileCandidateRegistrationComponent],
   providers: [RefreshFileCandidateDataGuard, FileCandidateRefresher, FileCandidatesFirstGuard]
 })

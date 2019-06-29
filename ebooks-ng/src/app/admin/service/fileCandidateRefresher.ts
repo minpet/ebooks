@@ -17,13 +17,30 @@ export class FileCandidateRefresher {
       const httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
-        'Authorization': `Bearer ${data}`
+          'Authorization': `Bearer ${data}`
         })
       };
 
       this.http.get<FileCandidate[]>(environment.restFileCandidateBaseURL, httpOptions).subscribe(candidates => {
         this.repo.updateWithRemoteData(candidates);
       });
-    })
+    });
+  }
+
+  deleteAndRefresh(candidate: FileCandidate) {
+    this.tokenHolder.getToken().then(data => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${data}`
+        })
+      };
+
+      this.http.delete(environment.restFileCandidateBaseURL + '/' + candidate.hashedName, httpOptions).subscribe(deleted => {
+      this.http.get<FileCandidate[]>(environment.restFileCandidateBaseURL, httpOptions).subscribe(candidates => {
+        this.repo.updateWithRemoteData(candidates);
+      });
+     });
+    });
   }
 }

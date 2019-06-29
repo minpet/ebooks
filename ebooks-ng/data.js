@@ -2,10 +2,12 @@ module.exports = function(){
  return{
   fileCandidates: [{
 	conflicts:[],
-	hashedName:'docker-in-action.pdf'},
+	hashedName:'docker-in-action.pdf',
+	underlyingFileName:'docker-in-action.pdf'},
      {
         conflicts:['book2'],
-        hashedName:'ebook2.pdf'}
+        hashedName:'ebook2.pdf',
+        underlyingFileName:'ebook2.pdf'}
      ],
   ebook: [{
     id: 1,

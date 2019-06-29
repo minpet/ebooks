@@ -9,10 +9,11 @@
           <div>
             {{candidate.underlyingFileName}}
           </div>
+          <button *ngIf="candidate.conflicts?.length > 0" class="btn btn-outline-warning" placement="right" [ngbPopover]="popContent" (click)="selectPopOver(candidate)">Candidate For Deletion</button>
         </td>
         <td>
           <button class="btn btn-outline-success" [routerLink]="['/admin/fileCandidates/register',candidate.hashedName]">Register</button>
-          <button class="btn btn-outline-danger">Delete</button>
+          <button class="btn btn-outline-danger" (click)="open(content, candidate)">Delete</button>
         </td>
       </tr>
     </tbody>
@@ -20,6 +21,7 @@
   </div>
  </div>
 
+<ng-template #popContent>{{popOverCandidate.conflicts.join(',')}}</ng-template>
   <div class="form-inline float-left mr-1">
     <select class="form-control" [value]="itemsPerPage"
     (change)="changePageSize($event.target.value)">
@@ -37,3 +39,19 @@
     {{page}}
    </button>
  </div>
+
+ <ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Confirm deletion</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you sure you want to delete file {{selectedCandidate.underlyingFileName}}?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger" (click)="modal.close('YES')">YES</button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('NO')">NO</button>
+  </div>
+</ng-template>

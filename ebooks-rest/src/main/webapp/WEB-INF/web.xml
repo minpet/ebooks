@@ -22,4 +22,9 @@
      <session-config>
          <session-timeout>30</session-timeout>
      </session-config>
+     
+     <context-param>
+     	<param-name>resteasy.resources</param-name>
+     	<param-value>org.jboss.resteasy.plugins.stats.RegistryStatsResource</param-value>
+     </context-param>
  </web-app>

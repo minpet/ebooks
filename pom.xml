@@ -37,7 +37,6 @@
         <module>ebooks-json</module>
         <module>ebooks-rest</module>
         <module>ebooks-ng</module>
-        <module>ebooks-web</module>
         <module>ebooks-ear</module>
     </modules>
 
@@ -107,14 +106,6 @@
                 <scope>compile</scope>
             </dependency>
                 
-            <dependency>
-                <groupId>com.minpet</groupId>
-                <artifactId>ebooks-web</artifactId>
-                <version>${project.version}</version>
-                <type>war</type>
-                <scope>compile</scope>
-            </dependency>
-
             <!-- JBoss distributes a complete set of Java EE 7 APIs including
                 a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
                 a collection) of artifacts. We use this here so that we always get the correct 

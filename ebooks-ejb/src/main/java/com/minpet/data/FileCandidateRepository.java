@@ -15,7 +15,6 @@ import javax.ejb.Singleton;
 import javax.inject.Inject;
 
 import com.minpet.local.interf.IEbookRepository;
-import com.minpet.local.interf.IFileCandidateCache;
 import com.minpet.local.interf.IFileCandidateRepository;
 import com.minpet.model.FileCandidate;
 
@@ -35,45 +34,37 @@ public class FileCandidateRepository implements IFileCandidateRepository{
 	private Map<String, File> candidatesMap;
 	@Inject
 	private IEbookRepository ebookRepository;
-	@Inject
-	private IFileCandidateCache fileCandidateCache;
-
 	
 	public List<FileCandidate> getFileCandidates(){
-		if(fileCandidateCache.isValid()) {
-			return fileCandidateCache.getCachedValues();
-		} else {
-			candidatesMap = new HashMap<>();
-			String protocol = bookstoreUrl.getProtocol();
-			if("file".equals(protocol)){
-				files = new ArrayList<File>();
-				try {
-					File f = new File(bookstoreUrl.toURI());
-					for(File file : f.listFiles()){
-						files.add(file);
-					}
-				} catch(URISyntaxException e) {
-					LOGGER.log(Level.SEVERE, e.getMessage(), e);
+		candidatesMap = new HashMap<>();
+		String protocol = bookstoreUrl.getProtocol();
+		if("file".equals(protocol)){
+			files = new ArrayList<File>();
+			try {
+				File f = new File(bookstoreUrl.toURI());
+				for(File file : f.listFiles()){
+					files.add(file);
 				}
-			}else{
-				throw new UnsupportedOperationException("'java:global/ebooks/bookstore' needs to have file:// protocol, but "+protocol+" found");
+			} catch(URISyntaxException e) {
+				LOGGER.log(Level.SEVERE, e.getMessage(), e);
 			}
-			
-			List<FileCandidate> result = new ArrayList<>();
-			for(File file : files){
-				if(ebookRepository.findEbookByFileName(file.getName()) == null)
-				{
-					FileCandidate candidate = new FileCandidate();
-					candidate.setUnderlyingFile(file);
-					candidate.setConflicts(ebookRepository.findConflictsFor(candidate.getUnderlyingFile().getName()));
-					candidatesMap.put(candidate.getHashedName(), candidate.getUnderlyingFile());
-					result.add(candidate);
-				}
-			}
-			
-			fileCandidateCache.setCachedValues(result);
-			return result;
+		}else{
+			throw new UnsupportedOperationException("'java:global/ebooks/bookstore' needs to have file:// protocol, but "+protocol+" found");
 		}
+		
+		List<FileCandidate> result = new ArrayList<>();
+		for(File file : files){
+			if(ebookRepository.findEbookByFileName(file.getName()) == null)
+			{
+				FileCandidate candidate = new FileCandidate();
+				candidate.setUnderlyingFile(file);
+				candidate.setConflicts(ebookRepository.findConflictsFor(candidate.getUnderlyingFile().getName()));
+				candidatesMap.put(candidate.getHashedName(), candidate.getUnderlyingFile());
+				result.add(candidate);
+			}
+		}
+		
+		return result;
 	}
 	
 	public File findByHashedName(String string) {
