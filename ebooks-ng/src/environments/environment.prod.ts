@@ -6,7 +6,7 @@ const keycloakConfig: KeycloakConfig = {
   realm: 'WildflyMiniApps',
   clientId: 'angular-client',
   'credentials': {
-    'secret': "2f78fed4-29f0-4aed-982a-d8d9792c8ffe"
+    'secret': '2f78fed4-29f0-4aed-982a-d8d9792c8ffe'
   }
 };
 
@@ -15,5 +15,6 @@ export const environment = {
   restEbookBaseURL: `https://${location.hostname}/ebooks-rest/ebook`,
   restEbookRegisterBaseURL: `https://${location.hostname}/ebooks-rest/admin/ebookRegister`,
   restFileCandidateBaseURL: `https://${location.hostname}/ebooks-rest/admin/fileCandidate`,
-  keycloak: keycloakConfig,
+  restStatsBaseURL: `https://${location.hostname}/ebooks-rest/resteasy/registry`,
+  keycloak: keycloakConfig
 };

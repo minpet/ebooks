@@ -16,5 +16,6 @@ export const environment = {
   keycloak : keycloakConfig,
 restEbookBaseURL: `http://${location.hostname}:8080/ebooks-rest/ebook`,
 restEbookRegisterBaseURL: `http://${location.hostname}:8080/ebooks-rest/admin/ebookRegister`,
-restFileCandidateBaseURL: `http://${location.hostname}:8080/ebooks-rest/admin/fileCandidate`
+  restFileCandidateBaseURL: `http://${location.hostname}:8080/ebooks-rest/admin/fileCandidate`,
+  restStatsBaseURL: `http://${location.hostname}:8080/ebooks-rest/resteasy/registry`,
 };

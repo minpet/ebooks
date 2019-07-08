@@ -12,19 +12,26 @@ import { FileCandidateRegistrationComponent } from './fileCandidateRegistration.
 import { FormsModule } from '@angular/forms';
 import { CommonModule as ApplicationCommonModule } from '../common/common.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RestStatsComponent } from './restStats/restStats.component';
+import { RefreshReportGuard } from './restStats/refreshReportGuard';
+import { RestStatsDataCache } from './restStats/restStats.datacache';
+import { RestStatsDataSource } from './restStats/restStats.datasource';
 
 const routes = RouterModule.forChild([
   { path: 'ebook/edit/:id', component: EbookEditorComponent },
   { path: 'actions', component: AdminActionsComponent },
   { path: 'fileCandidates/register/:hashedName', component: FileCandidateRegistrationComponent, canActivate: [FileCandidatesFirstGuard]},
-  { path: 'fileCandidates', component: FileCandidatesComponent, canActivate : [RefreshFileCandidateDataGuard, FileCandidatesFirstGuard]},
+  { path: 'fileCandidates', component: FileCandidatesComponent, canActivate: [RefreshFileCandidateDataGuard, FileCandidatesFirstGuard] },
+  { path: 'restStats', component: RestStatsComponent, canActivate: [RefreshReportGuard]},
   { path: '**', redirectTo: 'actions'}
 ]);
 
 @NgModule({
   imports: [CommonModule, routes, FormsModule, ApplicationCommonModule, NgbModule],
-  declarations: [AdminActionsComponent, EbookEditorComponent, FileCandidatesComponent, FileCandidateRegistrationComponent],
-  providers: [RefreshFileCandidateDataGuard, FileCandidateRefresher, FileCandidatesFirstGuard]
+  declarations: [AdminActionsComponent, EbookEditorComponent, FileCandidatesComponent,
+    FileCandidateRegistrationComponent, RestStatsComponent, ],
+  providers: [RefreshFileCandidateDataGuard, FileCandidateRefresher, FileCandidatesFirstGuard, RefreshReportGuard,
+    RestStatsDataCache, RestStatsDataSource]
 })
 export class AdminModule { };
 

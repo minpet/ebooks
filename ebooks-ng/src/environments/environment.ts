@@ -20,7 +20,8 @@ export const environment = {
   keycloak : keycloakConfig,
   restEbookBaseURL: 'http://localhost:3500/ebook',
   restEbookRegisterBaseURL: 'http://localhost:3500/ebookRegister',
-  restFileCandidateBaseURL: 'http://localhost:3500/fileCandidates'
+  restFileCandidateBaseURL: 'http://localhost:3500/fileCandidates',
+  restStatsBaseURL: 'http://172.18.0.21:8080/ebooks-rest/resteasy/registry'
 
 };
 
