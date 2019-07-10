@@ -7,8 +7,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class XmlPipe implements PipeTransform {
   transform(value: string): string {
     const result = vkbeautify.xml(value);
-    console.log(value);
-    console.log(result);
     return result;
   }
 }

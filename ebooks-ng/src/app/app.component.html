@@ -14,10 +14,16 @@
       <router-outlet></router-outlet>
     </div>
   </div>
-  <div id="footer" class="bg-secondary">
-    Powered by:
-    <img alt="ng-logo"/>
-    <img alt="wildfly-logo"/>
-    <img alt="keycloak-logo"/>
-  </div>
+
+  <div id="footer" class="bg-secondary d-flex justify-content-between">
+    <div>
+      Powered by:
+    <img alt="ng-logo" src='assets/angular_icon_final.png'/>
+    <img alt="wildfly-logo" src='assets/wildfly_icon_final.png'/>
+    <img alt="keycloak-logo" src='assets/keycloak_icon_final.png'/>
+    </div>
+      <div>
+        Version: {{version}}
+      </div>
+ </div>
 </div>

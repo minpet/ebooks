@@ -11,6 +11,7 @@ import { EbooksListComponent } from './reader/ebooksList.component';
 import { ReaderComponent } from './reader/reader.component';
 import { AppAuthGuard } from './security/appAuth.guard';
 import { environment } from '../environments/environment';
+import { VersionDataSource } from './version/version.datasource';
 
 const routes = RouterModule.forRoot([
   { path: 'ebooks/:id', component: ReaderComponent },
@@ -35,7 +36,7 @@ const routes = RouterModule.forRoot([
     useFactory: initKeycloak,
       multi: true,
       deps: [KeycloakService]
-  }],
+  }, VersionDataSource],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

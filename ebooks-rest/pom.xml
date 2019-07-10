@@ -55,6 +55,23 @@
 				<failOnMissingWebXml>true</failOnMissingWebXml>
 			</configuration>
 		</plugin>
+		
+		<plugin>
+			<groupId>com.sebastian-daschner</groupId>
+			<artifactId>jaxrs-analyzer-maven-plugin</artifactId>
+			<version>0.17</version>
+			<executions>
+				<execution>
+					<phase>prepare-package</phase>
+					<goals>
+						<goal>analyze-jaxrs</goal>
+					</goals>
+					<configuration>
+						<backend>plaintext</backend><!-- asciidoc  -->
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
 	</plugins>
   </build>
 </project>

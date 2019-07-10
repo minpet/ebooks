@@ -78,6 +78,7 @@ module.exports = function(){
     id: 14,
     name: 'book14',
     uri: 'http://172.18.0.21:8080/ebooks-rest/raw/1'
-   }]
+   }],
+   version: { 'text' : 'live development'}
  }
 }
