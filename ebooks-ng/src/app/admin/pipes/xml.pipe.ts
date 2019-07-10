@@ -1,0 +1,14 @@
+import * as vkbeautify from 'vkbeautify';
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'xml'
+})
+export class XmlPipe implements PipeTransform {
+  transform(value: string): string {
+    const result = vkbeautify.xml(value);
+    console.log(value);
+    console.log(result);
+    return result;
+  }
+}

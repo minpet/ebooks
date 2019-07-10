@@ -16,6 +16,7 @@ import { RestStatsComponent } from './restStats/restStats.component';
 import { RefreshReportGuard } from './restStats/refreshReportGuard';
 import { RestStatsDataCache } from './restStats/restStats.datacache';
 import { RestStatsDataSource } from './restStats/restStats.datasource';
+import { XmlPipe } from './pipes/xml.pipe';
 
 const routes = RouterModule.forChild([
   { path: 'ebook/edit/:id', component: EbookEditorComponent },
@@ -29,7 +30,7 @@ const routes = RouterModule.forChild([
 @NgModule({
   imports: [CommonModule, routes, FormsModule, ApplicationCommonModule, NgbModule],
   declarations: [AdminActionsComponent, EbookEditorComponent, FileCandidatesComponent,
-    FileCandidateRegistrationComponent, RestStatsComponent, ],
+    FileCandidateRegistrationComponent, RestStatsComponent, XmlPipe],
   providers: [RefreshFileCandidateDataGuard, FileCandidateRefresher, FileCandidatesFirstGuard, RefreshReportGuard,
     RestStatsDataCache, RestStatsDataSource]
 })

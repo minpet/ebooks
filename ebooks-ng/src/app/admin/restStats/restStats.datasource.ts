@@ -9,12 +9,6 @@ export class RestStatsDataSource {
   constructor(private http: HttpClient) { }
 
   getStats(): Observable<string> {
-    const httpConfig = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/xml'
-      })
-    };
-
-    return this.http.get<string>(environment.restStatsBaseURL, httpConfig);
+   return this.http.get(environment.restStatsBaseURL, {responseType: 'text', headers: {'Accept' : 'application/xml'}});
   }
 }
