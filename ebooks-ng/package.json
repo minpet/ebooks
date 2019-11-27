@@ -31,7 +31,7 @@
     "font-awesome": "^4.7.0",
     "keycloak-angular": "^7.0.1",
     "keycloak-js": "^4.8.3",
-    "ngx-extended-pdf-viewer": "^0.9.46",
+    "ngx-extended-pdf-viewer": "^1.8.0-rc.1",
     "rxjs": "~6.4.0",
     "vkbeautify": "^0.99.3",
     "zone.js": "~0.9.1"
