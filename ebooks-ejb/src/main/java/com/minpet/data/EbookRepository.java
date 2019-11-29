@@ -105,4 +105,12 @@ public class EbookRepository implements IEbookRepository{
 	private String normalize(String name) {
 		return name.replaceAll("[^A-Za-z]", "").toLowerCase();
 	}
+
+	@Transactional
+	@Override
+	public void updateSelectedPage(long ebookId, int selectedPage) {
+		Ebook ebook = findById(ebookId);
+		ebook.setSelectedPage(selectedPage);
+		save(ebook);
+	}
 }

@@ -19,4 +19,6 @@ public interface IEbookRepository extends Serializable{
 
 	List<String> findConflictsFor(String name);
 
+	void updateSelectedPage(long ebookId, int selectedPage);
+
 }

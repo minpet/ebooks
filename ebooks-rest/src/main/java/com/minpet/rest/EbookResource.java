@@ -46,6 +46,8 @@ public class EbookResource {
 		json.setId(ebook.getId());
 		json.setName(ebook.getName());
 		json.setUri(uriInfo.getBaseUriBuilder().path("/raw/{id}").build(ebook.getId()));
+		int selectedPage = ebook.getSelectedPage() == null ? 0 : ebook.getSelectedPage();
+		json.setSelectedPage(selectedPage);
 		return json;
 	}
 }

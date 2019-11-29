@@ -18,6 +18,7 @@ package com.minpet.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -54,6 +55,9 @@ public class Ebook implements Serializable {
     
     @Transient
     private boolean registered = false;
+
+    @Column(nullable= true)
+    private Integer selectedPage = 0;
     
     public Long getId() {
         return id;
@@ -102,5 +106,13 @@ public class Ebook implements Serializable {
 
 	public void setRegistered(boolean registered) {
 		this.registered = registered;
+	}
+
+	public Integer getSelectedPage() {
+		return selectedPage;
+	}
+
+	public void setSelectedPage(Integer selectedPage) {
+		this.selectedPage = selectedPage;
 	}
 }

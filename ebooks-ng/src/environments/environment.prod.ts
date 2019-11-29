@@ -17,5 +17,6 @@ export const environment = {
   restFileCandidateBaseURL: `https://${location.hostname}/ebooks-rest/admin/fileCandidate`,
   restStatsBaseURL: `https://${location.hostname}/ebooks-rest/resteasy/registry`,
   restVersionBaseUrl: `https://${location.hostname}/ebooks-rest/version/text`,
-  keycloak: keycloakConfig
+  restEbookSelectedPage: `https://${location.hostname}/ebooks-rest/ebookSelectedPage`,
+  keycloak: keycloakConfig,
 };

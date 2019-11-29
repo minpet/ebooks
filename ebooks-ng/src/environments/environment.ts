@@ -22,6 +22,7 @@ export const environment = {
   restEbookRegisterBaseURL: 'http://172.18.0.21:8080/ebooks-rest/admin/ebookRegister',
   restFileCandidateBaseURL: 'http://localhost:3500/fileCandidates',
   restStatsBaseURL: 'http://172.18.0.21:8080/ebooks-rest/resteasy/registry',
+  restEbookSelectedPage: `http://172.18.0.21:8080/ebookSelectedPage`,
   restVersionBaseUrl: 'http://localhost:3500/version'
 };
 

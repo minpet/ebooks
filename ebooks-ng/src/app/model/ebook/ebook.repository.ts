@@ -27,4 +27,8 @@ export class EbookRepository {
   getEbooks(): Ebook[] {
     return this.ebooks;
   }
+
+  public updateSelectedPage(selectedEbook: Ebook, selectedPage: number) {
+    this.dataSource.updateSelectedPage(selectedEbook.id, selectedPage).subscribe(res => { });
+  }
 }

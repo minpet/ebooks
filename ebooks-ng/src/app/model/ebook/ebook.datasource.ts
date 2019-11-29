@@ -49,4 +49,8 @@ export class EbookDataSource {
       });
     });
   }
+
+  updateSelectedPage(selectedEbookId, selectedPage): Observable<any> {
+    return this.http.post<any>(environment.restEbookSelectedPage + '/' + selectedEbookId + '/' + selectedPage, {});
+  }
 }

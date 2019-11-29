@@ -1,10 +1,13 @@
 <div class="pdf-container">
-   <ngx-extended-pdf-viewer [src]="selectedEbook.uri" 
-	useBrowserLocale="true" 
-	height="80vh" 
-	delayFirstView="1000" 
-	showOpenFileButton="false"
-	showPresentationModeButton="false"
+   <ngx-extended-pdf-viewer [src]="selectedEbook.uri"
+	useBrowserLocale="true"
+	height="80vh"
+	delayFirstView="1000"
+	[showOpenFileButton]="false"
+	[showPresentationModeButton]="true"
+  [(page)]="selectedPage"
+  (pageChange)="updateSelectedPage()"
+
 	*ngIf="ready"></ngx-extended-pdf-viewer>
    <div *ngIf="!ready">
      Loading details ...
