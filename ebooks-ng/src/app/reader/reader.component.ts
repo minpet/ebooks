@@ -39,5 +39,6 @@ export class ReaderComponent {
 
   public updateSelectedPage() {
     this.repo.updateSelectedPage(this._selectedEbook, this._selectedPage);
+    this._selectedEbook.selectedPage = this._selectedPage;
   }
 }
