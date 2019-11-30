@@ -11,7 +11,12 @@ export class ReaderComponent implements OnDestroy{
   private _selectedPage = 0;
   private _selectedEbook: Ebook;
 
-  constructor(private repo: EbookRepository, private route: ActivatedRoute) { }
+  constructor(private repo: EbookRepository, private route: ActivatedRoute) {
+    const selectedId: number = Number(this.route.snapshot.params['id']);
+    const ebook = this.repo.getEbooks().find(ebook => ebook.id === selectedId);
+    this._selectedEbook = ebook;
+    this._selectedPage = ebook.selectedPage;
+  }
 
   get ready() {
     const ready = this.repo.populated;
@@ -19,13 +24,6 @@ export class ReaderComponent implements OnDestroy{
   }
 
   get selectedEbook(): Ebook {
-    const selectedId: number = Number(this.route.snapshot.params['id']);
-    if (this._selectedEbook === undefined) {
-      const ebook = this.repo.getEbooks().find(ebook => ebook.id === selectedId);
-      this._selectedEbook = ebook;
-      this._selectedPage = ebook.selectedPage;
-    }
-
     return this._selectedEbook;
   }
 
