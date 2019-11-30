@@ -9,9 +9,20 @@ export class EbookRepository {
   public populated = false;
 
   constructor(private dataSource: EbookDataSource) {
-    dataSource.getEbooks().subscribe(data => {
-      this.ebooks = data;
-      this.populated = true;
+    this.prepare().then(result => { });
+  }
+
+  public prepare(): Promise<any> {
+    return new Promise<any>(resolve => {
+      if (this.populated) {
+        resolve(true);
+      } else {
+        this.dataSource.getEbooks().subscribe(data => {
+          this.ebooks = data;
+          this.populated = true;
+          resolve(true);
+        });
+      }
     });
   }
 

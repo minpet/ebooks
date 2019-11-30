@@ -13,9 +13,11 @@ export class ReaderComponent implements OnDestroy{
 
   constructor(private repo: EbookRepository, private route: ActivatedRoute) {
     const selectedId: number = Number(this.route.snapshot.params['id']);
-    const ebook = this.repo.getEbooks().find(ebook => ebook.id === selectedId);
-    this._selectedEbook = ebook;
-    this._selectedPage = ebook.selectedPage;
+    this.repo.prepare().then(result => {
+      const ebook = this.repo.getEbooks().find(ebook => ebook.id === selectedId);
+      this._selectedEbook = ebook;
+      this._selectedPage = ebook.selectedPage;
+    });
   }
 
   get ready() {
