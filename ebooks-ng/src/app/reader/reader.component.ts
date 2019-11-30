@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Ebook } from './../model/ebook/ebook.model';
 import { EbookRepository } from './../model/ebook/ebook.repository';
@@ -6,7 +6,7 @@ import { EbookRepository } from './../model/ebook/ebook.repository';
 @Component({
   templateUrl: './reader.component.html'
 })
-export class ReaderComponent {
+export class ReaderComponent implements OnDestroy{
 
   private _selectedPage = 0;
   private _selectedEbook: Ebook;
@@ -39,6 +39,9 @@ export class ReaderComponent {
 
   public updateSelectedPage() {
     this.repo.updateSelectedPage(this._selectedEbook, this._selectedPage);
+  }
+
+  public ngOnDestroy() {
     this._selectedEbook.selectedPage = this._selectedPage;
   }
 }
