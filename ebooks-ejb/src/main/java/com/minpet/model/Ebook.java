@@ -45,20 +45,20 @@ public class Ebook implements Serializable {
     private String name;
 
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 150)
     private String hashedName;
-    
+
     @NotNull
     private String file;
-    
+
     private boolean indexed = false;
-    
+
     @Transient
     private boolean registered = false;
 
     @Column(nullable= true)
     private Integer selectedPage = 0;
-    
+
     public Long getId() {
         return id;
     }
@@ -73,7 +73,6 @@ public class Ebook implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-        this.setHashedName(name.replaceAll("-", "").replaceAll(" ", "").replaceAll(",", ""));
     }
 
 	public String getFile() {
