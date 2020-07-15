@@ -84,7 +84,7 @@
 			</activation>
 			<properties>
 				<mp.jwt.verify.publickey.location>https://build-machine.local/auth/realms/WildflyMiniApps/protocol/openid-connect/certs</mp.jwt.verify.publickey.location>
-				<mp.jwt.verify.issuer>http://build-machine.local/auth/realms/WildflyMiniApps</mp.jwt.verify.issuer>
+				<mp.jwt.verify.issuer>https://build-machine.local/auth/realms/WildflyMiniApps</mp.jwt.verify.issuer>
 			</properties>
 		</profile>
 		<profile>
