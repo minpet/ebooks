@@ -2,6 +2,7 @@ package com.minpet.rest.admin;
 
 import java.io.File;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -22,6 +23,7 @@ import com.minpet.rest.json.EbookRegistrationJson;
 
 @Path("/admin/ebookRegister")
 @RequestScoped
+@RolesAllowed("authenticated")
 public class RegisterEbookResource {
 	
 	private static final Logger LOGGER = Logger.getLogger(RegisterEbookResource.class);
@@ -49,6 +51,7 @@ public class RegisterEbookResource {
 		ebookRegistration.register(ebook);
 		
 		if(ebook.isRegistered()) {
+			LOGGER.debug("ebook "+ebook.getName()+" registered");
 			return EbookResource.convert(ebook, uriInfo);
 		}
 		

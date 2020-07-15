@@ -32,6 +32,11 @@
 	<!-- Import the JAX-RS API, we use provided scope as the API is included 
 			in JBoss WildFly -->
 		<dependency>
+		  <groupId>org.eclipse.microprofile.jwt</groupId>
+		  <artifactId>microprofile-jwt-auth-api</artifactId>
+		  <version>1.1</version>
+		</dependency>
+		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>jaxrs-api</artifactId>
 			<scope>provided</scope>
@@ -80,5 +85,30 @@
 			</executions>
 		</plugin>
 	</plugins>
+	<resources>
+	  <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
   </build>
+  <profiles>
+  	<profile>
+  		<id>prod</id>
+  		<activation>
+  			<activeByDefault>true</activeByDefault>
+  		</activation>
+  		<properties>
+  			<mp.jwt.verify.publickey.location>https://build-machine.local/auth/realms/WildflyMiniApps/protocol/openid-connect/certs</mp.jwt.verify.publickey.location>
+  			<mp.jwt.verify.issuer>http://build-machine.local/auth/realms/WildflyMiniApps</mp.jwt.verify.issuer>
+  		</properties>
+  	</profile>
+  	<profile>
+  		<id>dev</id>
+  		<properties>
+  			<mp.jwt.verify.publickey.location>http://172.18.0.22:8080/auth/realms/devMiniApps/protocol/openid-connect/certs</mp.jwt.verify.publickey.location>
+  			<mp.jwt.verify.issuer>http://172.18.0.22:8080/auth/realms/devMiniApps</mp.jwt.verify.issuer>
+  		</properties>
+  	</profile>
+  </profiles>
 </project>
