@@ -10,6 +10,7 @@ export class EbooksListComponent extends PageableComponent {
 
   constructor(private repo: EbookRepository) {
     super();
+    super.itemsPerPage = 9;
   }
 
   get ebooks(): Ebook[]{
@@ -19,6 +20,5 @@ export class EbooksListComponent extends PageableComponent {
   protected getDataArray(): Object[]{
     return this.repo.getEbooks();
   }
-
 
 }

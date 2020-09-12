@@ -1,20 +1,24 @@
 <div class="text-center">
  <div class="bg-secondary" >Registered e-Books Library:</div>
- <div class="row">
+ <div  *ngFor="let ebook of ebooks; let i = index" [attr.data-index]="i" class="row">
+  <div class="col" *ngIf="ebooks[3*i]">
+   <book-link [ebook]="ebooks[3*i]"></book-link>
+  </div>
   <div class="col">
-   <button *ngFor="let ebook of ebooks" class="btn btn-block" [routerLink]="['/ebooks', ebook.id]">
-      {{ebook.name}}
-   </button>
+   <book-link [ebook]="ebooks[3*i + 1]"></book-link>
+  </div>
+  <div class="col">
+   <book-link [ebook]="ebooks[3*i + 2]"></book-link>
   </div>
  </div>
 
   <div class="form-inline float-left mr-1">
     <select class="form-control" [value]="itemsPerPage"
     (change)="changePageSize($event.target.value)">
-     <option value="10">10</option>
-     <option value="20">20</option>
+     <option value="9">9</option>
+     <option value="15">15</option>
      <option value="30">30</option>
-     <option value="50">50</option>
+     <option value="60">60</option>
     </select>
   </div>
 
