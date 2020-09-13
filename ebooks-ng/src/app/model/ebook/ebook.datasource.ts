@@ -50,6 +50,22 @@ export class EbookDataSource {
     });
   }
 
+  setCover(ebookId: number, binary: any): Promise<Ebook> {
+    return new Promise<Ebook>((resolve) => {
+
+      this.tokenHolder.getToken().then(data => {
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Authorization': `Bearer ${data}`
+          })
+        };
+        this.http.post<Ebook>(`${environment.restEbookSetCoverBaseURL}/${ebookId}`, btoa(binary), httpOptions).subscribe(ebook => {
+          resolve(ebook);
+        });
+      });
+    });
+  }
+
   updateSelectedPage(selectedEbookId, selectedPage): Observable<any> {
     return this.http.post<any>(environment.restEbookSelectedPage + '/' + selectedEbookId + '/' + selectedPage, {});
   }

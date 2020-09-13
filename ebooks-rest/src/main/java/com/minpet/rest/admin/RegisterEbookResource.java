@@ -52,7 +52,7 @@ public class RegisterEbookResource {
 		
 		if(ebook.isRegistered()) {
 			LOGGER.debug("ebook "+ebook.getName()+" registered");
-			return EbookResource.convert(ebook, uriInfo);
+			return EbookResource.convert(ebook, null, uriInfo);
 		}
 		
 		return null;

@@ -1,6 +1,12 @@
-.book-cover{
+.book-cover {
   height: 200px;
   border-style: solid;
   border-color: black;
   border-width: 1px;
+}
+
+.book-cover-image {
+	position: relative;
+	top: 3px;
+	height: 190px;
 }

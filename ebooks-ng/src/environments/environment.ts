@@ -23,7 +23,8 @@ export const environment = {
   restFileCandidateBaseURL: 'http://localhost:3500/fileCandidates',
   restStatsBaseURL: 'http://172.18.0.21:8080/ebooks-rest/resteasy/registry',
   restEbookSelectedPage: `http://172.18.0.21:8080/ebookSelectedPage`,
-  restVersionBaseUrl: 'http://localhost:3500/version'
+  restVersionBaseUrl: 'http://localhost:3500/version',
+  restEbookSetCoverBaseURL: 'http://undefined'
 };
 
 /*

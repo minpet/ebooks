@@ -3,6 +3,7 @@ export class Ebook {
     public name?: string,
     public uri?: string,
     public selectedPage?: number,
-    public underlyingFileName?: string
+    public underlyingFileName?: string,
+    public imageUrl?: string
   ) { }
 }

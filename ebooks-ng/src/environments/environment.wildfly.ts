@@ -14,10 +14,11 @@ const keycloakConfig: KeycloakConfig = {
 export const environment = {
   production: false,
   keycloak : keycloakConfig,
-restEbookBaseURL: `http://${location.hostname}:8080/ebooks-rest/ebook`,
-restEbookRegisterBaseURL: `http://${location.hostname}:8080/ebooks-rest/admin/ebookRegister`,
+  restEbookBaseURL: `http://${location.hostname}:8080/ebooks-rest/ebook`,
+  restEbookRegisterBaseURL: `http://${location.hostname}:8080/ebooks-rest/admin/ebookRegister`,
   restFileCandidateBaseURL: `http://${location.hostname}:8080/ebooks-rest/admin/fileCandidate`,
   restStatsBaseURL: `http://${location.hostname}:8080/ebooks-rest/resteasy/registry`,
   restVersionBaseUrl: `http://${location.hostname}:8080/ebooks-rest/version/text`,
   restEbookSelectedPage: `http://${location.hostname}:8080/ebooks-rest/ebookSelectedPage`,
+  restEbookSetCoverBaseURL: `http://${location.hostname}:8080/ebooks-rest/admin/ebookImage/upload`,
 };

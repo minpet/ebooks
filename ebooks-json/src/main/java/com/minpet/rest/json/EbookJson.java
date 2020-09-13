@@ -12,6 +12,7 @@ public class EbookJson {
 	private URI uri;
 	private String underlyingFileName;
 	private int selectedPage;
+	private URI imageUrl;
 	
 	public long getId() {
 		return id;
@@ -42,6 +43,12 @@ public class EbookJson {
 	}
 	public void setSelectedPage(int selectedPage) {
 		this.selectedPage = selectedPage;
+	}
+	public URI getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(URI imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 }

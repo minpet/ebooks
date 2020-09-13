@@ -1,3 +1,32 @@
-<button class="btn btn-block book-cover" [routerLink]="['/ebooks', ebook.id]" *ngIf='ebook'>
-{{ ebook.name }}
-</button>
+<div  class="book-cover" *ngIf="ebook">
+ <div *ngIf="ebook.imageUrl === null">
+  <div *ngIf="loggedIn">
+    <button id="showRecipeDetailsButton" class="btn-warning" (click)="open(mymodal, ebook)" >Upload Book Cover</button>
+  </div>
+  <button class="btn btn-block" [routerLink]="['/ebooks', ebook.id]" *ngIf='ebook'>
+	{{ ebook.name }}
+  </button>
+ </div>
+ <img [src]="ebook.imageUrl" class="book-cover-image" [alt]="ebook.name" [routerLink]="['/ebooks', ebook.id]" *ngIf='ebook.imageUrl'/>
+</div>
+
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Upload cover book for <b>{{ ebook.name }}</b></h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #form="ngForm" (ngSubmit)="submitForm(form)">
+      <div class="form-group">
+        <label>Cover</label>
+        <input type="file" id="albumArtUpload" (change)="onCoverBookFile($event)"/>
+      </div>
+      <button class="btn btn-success" type="submit">Update</button>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+  </div>
+ </ng-template>

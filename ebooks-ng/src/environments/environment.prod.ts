@@ -12,11 +12,12 @@ const keycloakConfig: KeycloakConfig = {
 
 export const environment = {
   production: true,
+  keycloak: keycloakConfig,
   restEbookBaseURL: `https://${location.hostname}/ebooks-rest/ebook`,
   restEbookRegisterBaseURL: `https://${location.hostname}/ebooks-rest/admin/ebookRegister`,
   restFileCandidateBaseURL: `https://${location.hostname}/ebooks-rest/admin/fileCandidate`,
   restStatsBaseURL: `https://${location.hostname}/ebooks-rest/resteasy/registry`,
   restVersionBaseUrl: `https://${location.hostname}/ebooks-rest/version/text`,
   restEbookSelectedPage: `https://${location.hostname}/ebooks-rest/ebookSelectedPage`,
-  keycloak: keycloakConfig,
+  restEbookSetCoverBaseURL: `https://${location.hostname}/ebooks-rest/admin/ebookImage/upload`,
 };
