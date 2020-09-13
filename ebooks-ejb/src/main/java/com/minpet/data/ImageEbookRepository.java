@@ -1,7 +1,5 @@
 package com.minpet.data;
 
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -20,7 +18,6 @@ public class ImageEbookRepository implements IImageRepository{
 	private EntityManager em;
 
 	@Override
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public EbookImage saveEbookImage(long ebookId, String mimeType, String encodeFileToBase64Binary) {
 		EbookImage im = new EbookImage();
 		im.setContent(encodeFileToBase64Binary);
@@ -32,7 +29,6 @@ public class ImageEbookRepository implements IImageRepository{
 	}
 
 	@Override
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public EbookImage findImageForEbook(Long id) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<EbookImage> criteria = cb.createQuery(EbookImage.class);

@@ -21,6 +21,8 @@ import com.minpet.local.interf.IImageRepository;
 import com.minpet.model.EbookImage;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
 // The @Stateless annotation eliminates the need for manual transaction demarcation
@@ -31,12 +33,17 @@ public class EbookCoverRegistration implements IEbookCoverRegistration {
     private IImageRepository imageRepository;
     
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
     public EbookImage registerImage(long ebookId, String mimeType, String encodedContent) {
 		return imageRepository.saveEbookImage(ebookId, mimeType, encodedContent);
     }
 	
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public EbookImage findImageForEbook(long ebookId) {
-		return imageRepository.findImageForEbook(ebookId);
+		EbookImage image = imageRepository.findImageForEbook(ebookId);
+		//force LOB loading
+		image.getContent();
+		return image;
 	}
 }

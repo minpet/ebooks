@@ -12,8 +12,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
+import com.minpet.local.interf.IEbookCoverRegistration;
 import com.minpet.local.interf.IEbookRepository;
-import com.minpet.local.interf.IImageRepository;
 import com.minpet.model.Ebook;
 import com.minpet.model.EbookImage;
 import com.minpet.rest.json.EbookJson;
@@ -26,7 +26,7 @@ public class EbookResource {
 	private IEbookRepository ebookRepository;
 	
 	@Inject
-	private IImageRepository imageRepository;
+	private IEbookCoverRegistration imageRepository;
 	
 	@GET
 	@Produces("application/json")
