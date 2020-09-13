@@ -39,6 +39,7 @@ public class EbookCoverRegistration implements IEbookCoverRegistration {
     }
 	
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public EbookImage findImageForEbook(long ebookId) {
 		return imageRepository.findImageForEbook(ebookId);
 	}
