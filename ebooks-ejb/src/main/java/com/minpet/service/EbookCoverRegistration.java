@@ -43,7 +43,9 @@ public class EbookCoverRegistration implements IEbookCoverRegistration {
 	public EbookImage findImageForEbook(long ebookId) {
 		EbookImage image = imageRepository.findImageForEbook(ebookId);
 		//force LOB loading
-		image.getContent();
+		if(image != null) {
+			image.getContent();
+		}
 		return image;
 	}
 }
