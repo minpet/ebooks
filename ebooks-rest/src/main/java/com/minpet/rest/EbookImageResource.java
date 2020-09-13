@@ -14,7 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import com.minpet.local.interf.IImageRepository;
+import com.minpet.local.interf.IEbookCoverRegistration;
 import com.minpet.model.EbookImage;
 
 @Path("/ebook/image")
@@ -22,7 +22,7 @@ import com.minpet.model.EbookImage;
 public class EbookImageResource {
 	
 	@Inject
-	private IImageRepository imageRepository;
+	private IEbookCoverRegistration imageRepository;
 	
 	@GET
 	@Produces("application/json")
