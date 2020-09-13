@@ -24,6 +24,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 // The @Stateless annotation eliminates the need for manual transaction demarcation
 @Stateless
@@ -34,12 +35,14 @@ public class EbookCoverRegistration implements IEbookCoverRegistration {
     
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	@Transactional
     public EbookImage registerImage(long ebookId, String mimeType, String encodedContent) {
 		return imageRepository.saveEbookImage(ebookId, mimeType, encodedContent);
     }
 	
 	@Override
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	@Transactional
 	public EbookImage findImageForEbook(long ebookId) {
 		return imageRepository.findImageForEbook(ebookId);
 	}
