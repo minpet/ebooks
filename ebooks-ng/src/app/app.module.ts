@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { KeycloakService } from 'keycloak-angular';
 
 import { AppComponent } from './app.component';
+import { LogoutComponent } from './logout.component';
 import { EbooksListComponent } from './reader/ebooksList.component';
 import { ReaderComponent } from './reader/reader.component';
 import { AppAuthGuard } from './security/appAuth.guard';
@@ -16,13 +17,15 @@ import { VersionDataSource } from './version/version.datasource';
 const routes = RouterModule.forRoot([
   { path: 'ebooks/:id', component: ReaderComponent },
   { path: 'ebooks', component: EbooksListComponent },
-  { path: 'admin', loadChildren: './admin/admin.module#AdminModule', canActivate: [AppAuthGuard]},
+  { path: 'admin', loadChildren: './admin/admin.module#AdminModule', canActivate: [AppAuthGuard] },
+  { path: 'logout', component: LogoutComponent},
   { path: '**', redirectTo: '/ebooks'}
 ]);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LogoutComponent
   ],
   imports: [
     CommonModule,
